@@ -9,5 +9,8 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
 {
     public interface IGameRepository : IRepository<Game>
     {
+        Task<IEnumerable<Game>> GetGamesWithDetails();
+
+        Task<Game> GetGameByKeyWithDetails(Guid gameKey);
     }
 }

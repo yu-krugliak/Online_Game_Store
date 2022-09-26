@@ -10,5 +10,6 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
 {
     public interface IPlatformRepository : IRepository<PlatformType>
     {
+        Task<PlatformType> GetPlatformByIdWithDetails(Guid platformId);
     }
 }

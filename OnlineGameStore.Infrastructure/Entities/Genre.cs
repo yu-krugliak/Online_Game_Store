@@ -6,7 +6,7 @@
 
         public string? Name { get; set; }
 
-        public Guid? Description { get; set; }
+        public string? Description { get; set; }
 
         public Guid? ParentGenreId { get; set; }
 

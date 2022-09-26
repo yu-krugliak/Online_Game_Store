@@ -9,5 +9,6 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
 {
     public interface IGenreRepository : IRepository<Genre>
     {
+        Task<Genre> GetGenreByIdWithDetails(Guid genreId);
     }
 }

@@ -24,5 +24,10 @@ namespace OnlineGameStore.Infrastructure.Context
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(GamesContext).Assembly);
         }
+
+        public Task CommentRepository(Comment comment)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

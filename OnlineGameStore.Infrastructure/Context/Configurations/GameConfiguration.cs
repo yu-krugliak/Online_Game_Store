@@ -8,8 +8,9 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
     {
         public void Configure(EntityTypeBuilder<Game> builder)
         {
-            builder.HasKey(game => game.Key);
+            builder.HasKey(game => game.Id);
 
+            builder.Property(game => game.Key);
             builder.Property(game => game.Name);
             builder.Property(game => game.Description);
 

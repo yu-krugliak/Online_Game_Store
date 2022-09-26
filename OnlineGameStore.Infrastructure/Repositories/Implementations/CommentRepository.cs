@@ -22,7 +22,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
         public async Task<IEnumerable<Comment>> GetByGameKey(Guid gameKey)
         {
             return await _gamesContext.Comments
-                .Where(c => c.GameId == gameKey).OrderBy(c => c.DatePosted).ToListAsync();
+                .Where(c => c.GameId == gameKey).ToListAsync();
         }
     }
 }

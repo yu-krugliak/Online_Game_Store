@@ -8,7 +8,7 @@
 
         public string? Body { get; set; }
 
-        public DateTime? DatePosted { get; set; }
+        //public DateTime? DatePosted { get; set; }
 
         public Guid? ParentCommentId { get; set; }
 

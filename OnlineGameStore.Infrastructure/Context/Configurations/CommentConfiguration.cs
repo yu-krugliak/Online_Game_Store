@@ -12,7 +12,7 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
 
             builder.Property(comment => comment.Name);
             builder.Property(comment => comment.Body);
-            builder.Property(comment => comment.DatePosted);
+            //builder.Property(comment => comment.DatePosted);
 
             builder.HasOne(comment => comment.ParentComment)
                 .WithMany(parent => parent.CommentReplies)

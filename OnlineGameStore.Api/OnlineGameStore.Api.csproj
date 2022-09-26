@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OnlineGameStore.Infrastructure\OnlineGameStore.Infrastructure.csproj" />
+    <ProjectReference Include="..\OnlineGameStore.Application\OnlineGameStore.Application.csproj" />
   </ItemGroup>
 
 </Project>
