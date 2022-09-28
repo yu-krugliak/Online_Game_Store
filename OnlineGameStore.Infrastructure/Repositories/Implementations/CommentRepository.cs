@@ -2,11 +2,6 @@
 using OnlineGameStore.Infrastructure.Context;
 using OnlineGameStore.Infrastructure.Entities;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineGameStore.Infrastructure.Repositories.Implementations
 {
@@ -19,10 +14,10 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             _gamesContext = gamesContext;
         }
 
-        public async Task<IEnumerable<Comment>> GetByGameKey(Guid gameKey)
+        public async Task<IEnumerable<Comment>> GetByGameId(Guid gameId)
         {
             return await _gamesContext.Comments
-                .Where(c => c.GameId == gameKey).ToListAsync();
+                .Where(c => c.GameId == gameId).ToListAsync();
         }
     }
 }

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineGameStore.Application.Models.Requests;
+using OnlineGameStore.Application.Models.Views;
+using OnlineGameStore.Infrastructure.Entities;
 
 namespace OnlineGameStore.Application.Services.Interfaces
 {
-    public interface IPlatformService
+    public interface IPlatformService : IService<PlatformType> 
     {
+        Task<IEnumerable<PlatformView>> GetAllAsync();
+
+        Task<PlatformView> AddAsync(PlatformRequest platformRequest);
     }
 }

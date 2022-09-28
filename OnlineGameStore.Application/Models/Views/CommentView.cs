@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OnlineGameStore.Application.Models.Views
+﻿namespace OnlineGameStore.Application.Models.Views
 {
     public class CommentView
     {
@@ -12,9 +6,9 @@ namespace OnlineGameStore.Application.Models.Views
 
         public string? Name { get; set; }
 
-        public string? Body { get; set; }
-
         public DateTime? DatePosted { get; set; }
+
+        public string? Body { get; set; }
 
         public Guid? ParentCommentId { get; set; }
 

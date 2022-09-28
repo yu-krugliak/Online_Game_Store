@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using OnlineGameStore.Application.Models.Requests;
+using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
-using OnlineGameStore.Infrastructure.Context;
 using OnlineGameStore.Infrastructure.Entities;
-using System.Net;
 
 namespace OnlineGameStore.Api.Controllers
 {
@@ -30,9 +27,8 @@ namespace OnlineGameStore.Api.Controllers
         public async Task<IActionResult> AddGame([FromBody] GameRequest request)
         {
             var result = await _gameService.AddAsync(request);
-            return Ok(result);
+            return CreatedAtAction(nameof(Comment), new { id = result.Id }, result);
         }
-
 
         [HttpPut("update")]
         public async Task<IActionResult> UpdateGame(Guid gameKey, [FromBody] GameRequest request)
@@ -65,6 +61,5 @@ namespace OnlineGameStore.Api.Controllers
         {
             return Ok(await _gameService.GetByPlatform(platformId));
         }
-        
     }
 }

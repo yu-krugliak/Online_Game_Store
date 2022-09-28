@@ -3,10 +3,6 @@ using OnlineGameStore.Infrastructure.Context;
 using OnlineGameStore.Infrastructure.Entities;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineGameStore.Infrastructure.Repositories.Implementations
 {
@@ -19,10 +15,28 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             _gamesContext = gamesContext;
         }
 
-        public async Task<Game> GetGameByKeyWithDetails(Guid gameKey)
+        public async Task<Game?> GetGameByKeyWithDetails(Guid gameKey)
         {
             return await _gamesContext.Games
                 .Include(g => g.Genres).Include(g => g.Platforms).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Game>> GetGamesByGenre(Guid genreId)
+        {
+            return await _gamesContext.Games
+                .Include(game => game.Genres)
+                .Where(game =>
+                    game.Genres!.Any(genre => genre.Id == genreId)
+                ).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Game>> GetGamesByPlatform(Guid platformId)
+        {
+            return await _gamesContext.Games
+                .Include(game => game.Platforms)
+                .Where(game => 
+                    game.Platforms!.Any(platform => platform.Id == platformId)
+                ).ToListAsync();
         }
 
         public async Task<IEnumerable<Game>> GetGamesWithDetails()

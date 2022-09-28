@@ -1,9 +1,4 @@
 ﻿using OnlineGameStore.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
 {
@@ -11,6 +6,10 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
     {
         Task<IEnumerable<Game>> GetGamesWithDetails();
 
-        Task<Game> GetGameByKeyWithDetails(Guid gameKey);
+        Task<Game?> GetGameByKeyWithDetails(Guid gameKey);
+
+        Task<IEnumerable<Game>> GetGamesByGenre(Guid genreId);
+
+        Task<IEnumerable<Game>> GetGamesByPlatform(Guid platformId);
     }
 }

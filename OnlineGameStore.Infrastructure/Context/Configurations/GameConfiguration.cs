@@ -11,8 +11,8 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
             builder.HasKey(game => game.Id);
 
             builder.Property(game => game.Key);
-            builder.Property(game => game.Name);
-            builder.Property(game => game.Description);
+            builder.Property(game => game.Name).HasMaxLength(60);
+            builder.Property(game => game.Description).HasMaxLength(500);
 
             builder.HasMany(game => game.Comments)
                 .WithOne(comment => comment.Game)

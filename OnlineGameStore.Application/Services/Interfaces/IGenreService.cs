@@ -1,16 +1,13 @@
 ﻿using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OnlineGameStore.Infrastructure.Entities;
 
 namespace OnlineGameStore.Application.Services.Interfaces
 {
-    public interface IGenreService
+    public interface IGenreService : IService<Genre>
     {
-        Task<GenreView> AddAsync(GenreRequest genreRequest);
+        Task<IEnumerable<GenreView>> GetAllAsync();
 
+        Task<GenreView> AddAsync(GenreRequest genreRequest);
     }
 }

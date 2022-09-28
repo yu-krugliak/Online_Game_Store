@@ -3,50 +3,25 @@ using OnlineGameStore.Application.Exeptions;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Interfaces;
-using OnlineGameStore.Application.Services.UnitOfWorkImplementation;
 using OnlineGameStore.Infrastructure.Entities;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineGameStore.Application.Services.Implementation
 {
-    public class GameService : IGameService
+    public class GameService : ServiceBase<Game>, IGameService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IGameRepository _gameRepository;
         private readonly IMapper _mapper;
 
-        public GameService(IUnitOfWork unitOfWork, IMapper mapper)
+        public GameService(IGameRepository gameRepository, IMapper mapper) : base(gameRepository)
         {
-            _unitOfWork = unitOfWork;
+            _gameRepository = gameRepository;
             _mapper = mapper;
-        }
-
-        public async Task<GameView> AddAsync(GameRequest gameRequest)
-        {
-            var game = _mapper.Map<Game>(gameRequest);
-
-            var addedGame = await _unitOfWork.GameRepository.AddAsync(game);
-
-            return _mapper.Map<GameView>(addedGame);
-        }
-
-        public async Task DeleteByKeyAsync(Guid gameKey)
-        {
-            var result = await _unitOfWork.GameRepository.DeleteByIdAsync(gameKey);
-
-            if (!result)
-            {
-                throw new NotFoundException("This game doesn't exist.");
-            }
         }
 
         public async Task<IEnumerable<GameView>> GetAllAsync()
         {
-            var games = await _unitOfWork.GameRepository.GetAllAsync();
+            var games = await _gameRepository.GetAllAsync();
 
             var gamesViews = _mapper.Map<IEnumerable<GameView>>(games);
             return gamesViews;
@@ -54,53 +29,59 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task<IEnumerable<GameView>> GetByGenre(Guid genreId)
         {
-            var genre = await _unitOfWork.GenreRepository.GetGenreByIdWithDetails(genreId);
-            var games = genre.Games;
+            var games = await _gameRepository.GetGamesByGenre(genreId);
 
             var gamesViews = _mapper.Map<IEnumerable<GameView>>(games);
             return gamesViews;
         }
 
-        public async Task<GameView> GetByIdAsync(Guid gameKey)
+        public async Task<IEnumerable<GameView>> GetByPlatform(Guid platformId)
         {
-            var game = await GetExistingGameById(gameKey);
+            var games = await _gameRepository.GetGamesByPlatform(platformId);
+
+            var gamesViews = _mapper.Map<IEnumerable<GameView>>(games);
+            return gamesViews;
+        }
+
+        public async Task<GameView> GetByIdAsync(Guid gameId)
+        {
+            var game = await GetExistingEntityById(gameId);
 
             var gameView = _mapper.Map<GameView>(game);
             return gameView;
         }
 
-        public async Task<IEnumerable<GameView>> GetByPlatform(Guid platformId)
+        public async Task<GameView> AddAsync(GameRequest gameRequest)
         {
-            var platformType = await _unitOfWork.PlatformRepository.GetPlatformByIdWithDetails(platformId);
-            var games = platformType.Games;
+            var game = _mapper.Map<Game>(gameRequest);
+            game.Key = Guid.NewGuid();
 
-            var gamesViews = _mapper.Map<IEnumerable<GameView>>(games);
-            return gamesViews;
+            var addedGame = await _gameRepository.AddAsync(game);
+
+            return _mapper.Map<GameView>(addedGame);
         }
 
-        public async Task UpdateAsync(Guid gameKey, GameRequest gameRequest)
+        public async Task DeleteByKeyAsync(Guid gameId)
         {
-            var game = await GetExistingGameById(gameKey);
+            var isDeleted = await _gameRepository.DeleteByIdAsync(gameId);
+
+            if (!isDeleted)
+            {
+                throw new NotFoundException("This game doesn't exist.");
+            }
+        }
+
+        public async Task UpdateAsync(Guid gameId, GameRequest gameRequest)
+        {
+            var game = await GetExistingEntityById(gameId);
             _mapper.Map(gameRequest, game);
 
-            var result = await _unitOfWork.GameRepository.UpdateAsync(game);
+            var isUpdated = await _gameRepository.UpdateAsync(game);
 
-            if (!result)
+            if (!isUpdated)
             {
                 throw new ServerErrorException("Can't update this game.", null);
             }
-        }
-
-        private async Task<Game> GetExistingGameById(Guid id)
-        {
-            var entity = await _unitOfWork.GameRepository.GetByIdAsync(id);
-
-            if (entity is null)
-            {
-                throw new NotFoundException($"Game with such id doesn't exist.");
-            }
-
-            return entity;
         }
     }
 }

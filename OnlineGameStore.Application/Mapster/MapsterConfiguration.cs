@@ -3,13 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineGameStore.Application.Mapster
 {
@@ -51,6 +44,5 @@ namespace OnlineGameStore.Application.Mapster
             var config = GetConfiguration();
             return services.AddSingleton(config);
         }
-
     }
 }

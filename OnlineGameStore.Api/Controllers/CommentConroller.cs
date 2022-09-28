@@ -9,7 +9,6 @@ namespace OnlineGameStore.Api.Controllers
     [Route("[controller]")]
     public class CommentConroller : ControllerBase
     {
-
         private readonly ICommentService _commentService;
 
         public CommentConroller(ICommentService commentService)

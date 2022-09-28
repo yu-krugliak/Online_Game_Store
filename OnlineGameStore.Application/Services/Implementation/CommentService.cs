@@ -2,43 +2,39 @@
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Interfaces;
-using OnlineGameStore.Application.Services.UnitOfWorkImplementation;
-using OnlineGameStore.Infrastructure.Context;
 using OnlineGameStore.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Application.Services.Implementation
 {
-    public class CommentService : ICommentService
+    public class CommentService : ServiceBase<Comment>, ICommentService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
 
-        public CommentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public CommentService(ICommentRepository commentRepository, IMapper mapper) : base(commentRepository)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _commentRepository = commentRepository;
+            _mapper = mapper;   
+        }
+
+        public async Task<IEnumerable<CommentView>> GetByGame(Guid gameId)
+        {
+            var comments = await _commentRepository.GetByGameId(gameId);
+
+            var commentsViews = _mapper.Map<IEnumerable<CommentView>>(comments);
+            return commentsViews;
         }
 
         public async Task<CommentView> AddAsync(CommentRequest commentRequest)
         {
             var comment = _mapper.Map<Comment>(commentRequest);
 
-            var addedComment = await _unitOfWork.CommentRepository.AddAsync(comment);
+            comment.DatePosted = DateTime.UtcNow;
+
+            var addedComment = await _commentRepository.AddAsync(comment);
 
             return _mapper.Map<CommentView>(addedComment);
-        }
-
-        public async Task<IEnumerable<CommentView>> GetByGame(Guid gameKey)
-        {
-            var comments = await _unitOfWork.CommentRepository.GetByGameKey(gameKey);
-
-            var commentsViews = _mapper.Map<IEnumerable<CommentView>>(comments);
-            return commentsViews;
         }
     }
 }

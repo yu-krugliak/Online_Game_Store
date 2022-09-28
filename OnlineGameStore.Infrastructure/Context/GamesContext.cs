@@ -13,6 +13,7 @@ namespace OnlineGameStore.Infrastructure.Context
 
         public virtual DbSet<PlatformType> PlatformTypes { get; set; } = default!;
 
+
         public GamesContext(DbContextOptions<GamesContext> options) : base(options)
         {
             Database?.EnsureCreated();
@@ -23,11 +24,6 @@ namespace OnlineGameStore.Infrastructure.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(GamesContext).Assembly);
-        }
-
-        public Task CommentRepository(Comment comment)
-        {
-            throw new NotImplementedException();
         }
     }
 }

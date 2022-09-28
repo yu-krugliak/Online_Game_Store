@@ -1,6 +1,5 @@
-﻿/*using OnlineGameStore.Application.Exeptions;
+﻿using OnlineGameStore.Application.Exeptions;
 using OnlineGameStore.Application.Services.Interfaces;
-using OnlineGameStore.Application.Services.UnitOfWorkImplementation;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,17 +11,16 @@ namespace OnlineGameStore.Application.Services.Implementation
 {
     public class ServiceBase<TEntity> : IService<TEntity> where TEntity : class
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<TEntity> _repository;
 
-        public ServiceBase(IUnitOfWork unitOfWork)
+        public ServiceBase(IRepository<TEntity> repository)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
         }
 
         public async Task<TEntity> GetExistingEntityById(Guid id)
         {
-            var entity = await _unitOfWork..GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
 
             if (entity is null)
             {
@@ -33,4 +31,3 @@ namespace OnlineGameStore.Application.Services.Implementation
         }
     }
 }
-*/

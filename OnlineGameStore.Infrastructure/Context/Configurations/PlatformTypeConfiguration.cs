@@ -10,7 +10,7 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
         {
             builder.HasKey(platform => platform.Id);
 
-            builder.Property(platform => platform.Type);
+            builder.Property(platform => platform.Type).HasMaxLength(60);
 
             builder.HasMany(platform => platform.Games)
                 .WithMany(game => game.Platforms);

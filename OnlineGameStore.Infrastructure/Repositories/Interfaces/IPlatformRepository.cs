@@ -1,15 +1,6 @@
-﻿using OnlineGameStore.Infrastructure.Context.Configurations;
-using OnlineGameStore.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineGameStore.Infrastructure.Entities;
 
 namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
 {
-    public interface IPlatformRepository : IRepository<PlatformType>
-    {
-        Task<PlatformType> GetPlatformByIdWithDetails(Guid platformId);
-    }
+    public interface IPlatformRepository : IRepository<PlatformType> { }
 }

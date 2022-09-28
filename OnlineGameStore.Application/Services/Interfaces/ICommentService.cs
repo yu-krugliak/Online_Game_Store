@@ -1,16 +1,12 @@
 ﻿using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OnlineGameStore.Infrastructure.Entities;
 
 namespace OnlineGameStore.Application.Services.Interfaces
 {
-    public interface ICommentService
+    public interface ICommentService : IService<Comment>
     {
-        Task<IEnumerable<CommentView>> GetByGame(Guid gameKey);
+        Task<IEnumerable<CommentView>> GetByGame(Guid gameId);
 
         Task<CommentView> AddAsync(CommentRequest commentRequest);
     }
