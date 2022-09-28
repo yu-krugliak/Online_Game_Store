@@ -3,12 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using OnlineGameStore.Application.Mapster;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineGameStore.Application
 {

@@ -2,7 +2,6 @@
 using OnlineGameStore.Infrastructure.Context;
 using OnlineGameStore.Infrastructure.Entities;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
-using System;
 
 namespace OnlineGameStore.Infrastructure.Repositories.Implementations
 {
