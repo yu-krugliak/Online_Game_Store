@@ -27,7 +27,7 @@ namespace OnlineGameStore.Api.Controllers
             return Ok(await _genreService.GetByIdAsync(id));
         }
 
-        [HttpPost("new")]
+        [HttpPost]
         public async Task<IActionResult> Add([FromBody] GenreRequest request)
         {
             var result = await _genreService.AddAsync(request);

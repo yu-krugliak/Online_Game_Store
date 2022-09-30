@@ -15,14 +15,14 @@ namespace OnlineGameStore.Api.Controllers
             _commentService = commentService;
         }
 
-        [HttpPost("newcomment")]
+        [HttpPost]
         public async Task<IActionResult> AddComment([FromBody] CommentRequest request)
         {
             var result = await _commentService.AddAsync(request);
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
-        [HttpGet("comments")]
+        [HttpGet]
         public async Task<IActionResult> GetAllCommentsByGame(Guid gameId)
         {
             return Ok(await _commentService.GetByGame(gameId));

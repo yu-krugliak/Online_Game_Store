@@ -27,7 +27,7 @@ namespace OnlineGameStore.Api.Controllers
             return Ok(await _platformService.GetByIdAsync(id));
         }
 
-        [HttpPost("new")]
+        [HttpPost]
         public async Task<IActionResult> Add([FromBody] PlatformRequest request)
         {
             var result = await _platformService.AddAsync(request);
