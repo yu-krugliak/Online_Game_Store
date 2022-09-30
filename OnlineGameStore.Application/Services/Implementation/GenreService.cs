@@ -7,7 +7,7 @@ using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Application.Services.Implementation
 {
-    public class GenreService : ServiceBase<Genre>, IGenreService
+    public class GenreService : ServiceBase<Genre>,  IGenreService
     {
         private readonly IGenreRepository _genreRepository;
         private readonly IMapper _mapper;
@@ -24,6 +24,14 @@ namespace OnlineGameStore.Application.Services.Implementation
 
             var genreViews = _mapper.Map<IEnumerable<GenreView>>(genres);
             return genreViews;
+        }
+
+        public async Task<GenreView> GetByIdAsync(Guid genreId)
+        {
+            var genre = await GetExistingEntityById(genreId);
+
+            var genreView = _mapper.Map<GenreView>(genre);
+            return genreView;
         }
 
         public async Task<GenreView> AddAsync(GenreRequest genreRequest)

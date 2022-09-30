@@ -26,6 +26,14 @@ namespace OnlineGameStore.Application.Services.Implementation
             return commentsViews;
         }
 
+        public async Task<CommentView> GetByIdAsync(Guid commentId)
+        {
+            var comment = await GetExistingEntityById(commentId);
+
+            var commentView = _mapper.Map<CommentView>(comment);
+            return commentView;
+        }
+
         public async Task<CommentView> AddAsync(CommentRequest commentRequest)
         {
             var comment = _mapper.Map<Comment>(commentRequest);

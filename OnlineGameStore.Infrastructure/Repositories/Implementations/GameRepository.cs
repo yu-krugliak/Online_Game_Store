@@ -14,10 +14,22 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             _gamesContext = gamesContext;
         }
 
+        public async Task<Game?> GetGameByIdWithDetails(Guid gameId)
+        {
+            return await _gamesContext.Games
+                .Where(game => game.Id == gameId)
+                .Include(game => game.Genres)
+                .Include(game => game.Platforms)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Game?> GetGameByKeyWithDetails(Guid gameKey)
         {
             return await _gamesContext.Games
-                .Include(g => g.Genres).Include(g => g.Platforms).FirstOrDefaultAsync();
+                .Where(game => game.Key == gameKey)
+                .Include(game => game.Genres)
+                .Include(game => game.Platforms)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Game>> GetGamesByGenre(Guid genreId)
@@ -26,7 +38,9 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .Include(game => game.Genres)
                 .Where(game =>
                     game.Genres!.Any(genre => genre.Id == genreId)
-                ).ToListAsync();
+                )
+                .Include(game => game.Platforms)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Game>> GetGamesByPlatform(Guid platformId)
@@ -35,13 +49,17 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .Include(game => game.Platforms)
                 .Where(game => 
                     game.Platforms!.Any(platform => platform.Id == platformId)
-                ).ToListAsync();
+                )
+                .Include(game => game.Genres)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Game>> GetGamesWithDetails()
         {
             return await _gamesContext.Games
-                .Include(g => g.Genres).Include(g => g.Platforms).ToListAsync();
+                .Include(game => game.Genres)
+                .Include(game => game.Platforms)
+                .ToListAsync();
         }
     }
 }

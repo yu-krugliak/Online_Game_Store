@@ -26,6 +26,14 @@ namespace OnlineGameStore.Application.Services.Implementation
             return platformViews;
         }
 
+        public async Task<PlatformView> GetByIdAsync(Guid platformId)
+        {
+            var platform = await GetExistingEntityById(platformId);
+
+            var platformView = _mapper.Map<PlatformView>(platform);
+            return platformView;
+        }
+
         public async Task<PlatformView> AddAsync(PlatformRequest platformRequest)
         {
             var platform = _mapper.Map<PlatformType>(platformRequest);

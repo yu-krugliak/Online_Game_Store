@@ -8,6 +8,8 @@ namespace OnlineGameStore.Application.Services.Interfaces
     {
         Task<IEnumerable<CommentView>> GetByGame(Guid gameId);
 
+        Task<CommentView> GetByIdAsync(Guid commentId);
+
         Task<CommentView> AddAsync(CommentRequest commentRequest);
     }
 }

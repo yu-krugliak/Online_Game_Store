@@ -13,10 +13,14 @@ namespace OnlineGameStore.Application.Mapster
             var config = new TypeAdapterConfig();
 
             config.ForType<Game, GameView>()
+                .Map(gv => gv.GenreIds, g => SelectIdsFromCollection(g.Genres))
+                .Map(gv => gv.PlatformIds, g => SelectIdsFromCollection(g.Platforms))
                 .IgnoreNullValues(false);
 
             config.ForType<GameRequest, Game>()
-                .IgnoreNullValues(true);
+                /*.Map(g => g.Genres, r => r.GenreIds.Select(id => new Genre() { Id = id }))
+                .Map(g => g.Platforms, r => r.PlatformIds.Select(id => new PlatformType() { Id = id }))
+                */.IgnoreNullValues(true);
 
             config.ForType<Comment, CommentView>()
                 .IgnoreNullValues(false);
@@ -43,6 +47,12 @@ namespace OnlineGameStore.Application.Mapster
         {
             var config = GetConfiguration();
             return services.AddSingleton(config);
+        }
+
+        private static IEnumerable<Guid>? SelectIdsFromCollection<TEntity>(IEnumerable<TEntity>? collection)
+            where TEntity : class, IEntity<Guid>
+        {
+            return collection?.Select(entity => entity.Id);
         }
     }
 }

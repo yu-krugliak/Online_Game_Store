@@ -16,7 +16,7 @@ namespace OnlineGameStore.Application.Services.Interfaces
 
         Task<GameView> AddAsync(GameRequest gameRequest);
 
-        Task DeleteByKeyAsync(Guid gameId);
+        Task DeleteByIdAsync(Guid gameId);
 
         Task UpdateAsync(Guid gameId, GameRequest gameRequest);
     }

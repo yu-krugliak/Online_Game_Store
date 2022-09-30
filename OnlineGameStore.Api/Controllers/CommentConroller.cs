@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Services.Interfaces;
-using OnlineGameStore.Infrastructure.Entities;
 
 namespace OnlineGameStore.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CommentConroller : ControllerBase
+    public class CommentController : ControllerBase
     {
         private readonly ICommentService _commentService;
 
-        public CommentConroller(ICommentService commentService)
+        public CommentController(ICommentService commentService)
         {
             _commentService = commentService;
         }
@@ -20,13 +19,19 @@ namespace OnlineGameStore.Api.Controllers
         public async Task<IActionResult> AddComment([FromBody] CommentRequest request)
         {
             var result = await _commentService.AddAsync(request);
-            return CreatedAtAction(nameof(Comment), new { id = result.Id }, result);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
         [HttpGet("comments")]
-        public async Task<IActionResult> GetAllCommentsByGame(Guid gameKey)
+        public async Task<IActionResult> GetAllCommentsByGame(Guid gameId)
         {
-            return Ok(await _commentService.GetByGame(gameKey));
+            return Ok(await _commentService.GetByGame(gameId));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            return Ok(await _commentService.GetByIdAsync(id));
         }
     }
 }

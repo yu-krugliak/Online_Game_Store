@@ -11,17 +11,23 @@ namespace OnlineGameStore.Application.Services.Implementation
     public class GameService : ServiceBase<Game>, IGameService
     {
         private readonly IGameRepository _gameRepository;
+        private readonly IGenreRepository _genreRepository;
+        private readonly IPlatformRepository _platformRepository;
+
         private readonly IMapper _mapper;
 
-        public GameService(IGameRepository gameRepository, IMapper mapper) : base(gameRepository)
+        public GameService(IGameRepository gameRepository, IGenreRepository genreRepository, 
+            IPlatformRepository platformRepository, IMapper mapper) : base(gameRepository)
         {
             _gameRepository = gameRepository;
+            _genreRepository = genreRepository;
+            _platformRepository = platformRepository;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<GameView>> GetAllAsync()
         {
-            var games = await _gameRepository.GetAllAsync();
+            var games = await _gameRepository.GetGamesWithDetails();
 
             var gamesViews = _mapper.Map<IEnumerable<GameView>>(games);
             return gamesViews;
@@ -58,10 +64,15 @@ namespace OnlineGameStore.Application.Services.Implementation
 
             var addedGame = await _gameRepository.AddAsync(game);
 
+            await AddGenresToGame(gameRequest.GenreIds, addedGame);
+            await AddPlatformsToGame(gameRequest.PlatformIds, addedGame);
+
+            await _gameRepository.UpdateAsync(addedGame);
+
             return _mapper.Map<GameView>(addedGame);
         }
 
-        public async Task DeleteByKeyAsync(Guid gameId)
+        public async Task DeleteByIdAsync(Guid gameId)
         {
             var isDeleted = await _gameRepository.DeleteByIdAsync(gameId);
 
@@ -76,11 +87,45 @@ namespace OnlineGameStore.Application.Services.Implementation
             var game = await GetExistingEntityById(gameId);
             _mapper.Map(gameRequest, game);
 
+            await AddGenresToGame(gameRequest.GenreIds, game);
+            await AddPlatformsToGame(gameRequest.PlatformIds, game);
+
             var isUpdated = await _gameRepository.UpdateAsync(game);
 
             if (!isUpdated)
             {
                 throw new ServerErrorException("Can't update this game.", null);
+            }
+        }    
+
+        private async Task AddGenresToGame(IEnumerable<Guid> genresIds, Game game)
+        {
+            foreach (var genreId in genresIds)
+            {
+                var genre = await _genreRepository.GetByIdAsync(genreId);
+                CheckEntityIsNull(genre);
+
+                game.Genres.Add(genre!);
+            }
+        }
+
+        private async Task AddPlatformsToGame(IEnumerable<Guid> platformsIds, Game game)
+        {
+            foreach (var platformId in platformsIds)
+            {
+                var platformType = await _platformRepository.GetByIdAsync(platformId);
+                CheckEntityIsNull(platformType);
+
+                game.Platforms.Add(platformType!);
+            }
+        }
+
+        private static void CheckEntityIsNull<TEntity>(TEntity? entity)
+            where TEntity : class, IEntity<Guid>
+        {
+            if (entity is null)
+            {
+                throw new NotFoundException($"{typeof(TEntity).Name} with such id doesn't exist.");
             }
         }
     }

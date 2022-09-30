@@ -1,6 +1,6 @@
 ﻿namespace OnlineGameStore.Infrastructure.Entities
 {
-    public class Game
+    public class Game : IEntity<Guid>
     {
         public Guid Id { get; set; }
 
@@ -10,11 +10,12 @@
 
         public string? Description { get; set; }
 
-        public virtual ICollection<Comment>? Comments { get; set; }
 
-        public virtual ICollection<Genre>? Genres { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        public virtual ICollection<PlatformType>? Platforms { get; set; }
+        public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();
+
+        public virtual ICollection<PlatformType> Platforms { get; set; } = new List<PlatformType>();
 
     }
 }

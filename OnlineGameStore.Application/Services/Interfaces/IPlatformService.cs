@@ -4,9 +4,11 @@ using OnlineGameStore.Infrastructure.Entities;
 
 namespace OnlineGameStore.Application.Services.Interfaces
 {
-    public interface IPlatformService : IService<PlatformType> 
+    public interface IPlatformService : IService<PlatformType>
     {
         Task<IEnumerable<PlatformView>> GetAllAsync();
+
+        Task<PlatformView> GetByIdAsync(Guid platformId);
 
         Task<PlatformView> AddAsync(PlatformRequest platformRequest);
     }

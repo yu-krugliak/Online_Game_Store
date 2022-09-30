@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Services.Interfaces;
-using OnlineGameStore.Infrastructure.Entities;
 
 namespace OnlineGameStore.Api.Controllers
 {
@@ -22,31 +21,31 @@ namespace OnlineGameStore.Api.Controllers
             return Ok(await _gameService.GetAllAsync());
         }
 
-        [HttpPost("new")]
+        [HttpPost]
         public async Task<IActionResult> AddGame([FromBody] GameRequest request)
         {
             var result = await _gameService.AddAsync(request);
-            return CreatedAtAction(nameof(Comment), new { id = result.Id }, result);
+            return CreatedAtAction(nameof(GetGameById), new { id = result.Id }, result);
         }
 
-        [HttpPut("update")]
-        public async Task<IActionResult> UpdateGame(Guid gameKey, [FromBody] GameRequest request)
+        [HttpPut]
+        public async Task<IActionResult> UpdateGame(Guid gameId, [FromBody] GameRequest request)
         {
-            await _gameService.UpdateAsync(gameKey, request);
+            await _gameService.UpdateAsync(gameId, request);
             return Ok();
         }
 
-        [HttpDelete("remove")]
-        public async Task<IActionResult> DeleteGame(Guid gameKey)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteGame(Guid gameId)
         {
-            await _gameService.DeleteByKeyAsync(gameKey);
+            await _gameService.DeleteByIdAsync(gameId);
             return Ok();
         }
 
-        [HttpGet("{key}")]
-        public async Task<IActionResult> GetGameById(Guid gameKey)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetGameById(Guid id)
         {
-            return Ok(await _gameService.GetByIdAsync(gameKey));
+            return Ok(await _gameService.GetByIdAsync(id));
         }
 
         [HttpGet("bygenre")]

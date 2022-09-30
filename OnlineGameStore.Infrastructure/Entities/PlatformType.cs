@@ -1,6 +1,6 @@
 ﻿namespace OnlineGameStore.Infrastructure.Entities
 {
-    public class PlatformType
+    public class PlatformType : IEntity<Guid>
     {
         public Guid Id { get; set; }
         

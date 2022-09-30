@@ -1,6 +1,6 @@
 ﻿namespace OnlineGameStore.Infrastructure.Entities
 {
-    public class Genre
+    public class Genre : IEntity<Guid>
     {
         public Guid Id { get; set; }
 
@@ -15,6 +15,5 @@
         public virtual ICollection<Genre>? NestedGenres { get; set; }
 
         public virtual ICollection<Game>? Games { get; set; }
-
     }
 }

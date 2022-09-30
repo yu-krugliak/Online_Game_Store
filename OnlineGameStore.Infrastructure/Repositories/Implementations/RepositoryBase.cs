@@ -3,53 +3,53 @@ using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Infrastructure.Repositories.Implementations
 {
-    public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class 
     {
-        private readonly DbContext _forumContext;
+        private readonly DbContext _gameContext;
 
         protected RepositoryBase(DbContext context)
         {
-            _forumContext = context;
+            _gameContext = context;
         }
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _forumContext.Set<TEntity>().ToListAsync();
+            return await _gameContext.Set<TEntity>().ToListAsync();
         }
 
         public virtual async Task<TEntity?> GetByIdAsync(Guid id)
         {
-            return await _forumContext.Set<TEntity>()
+            return await _gameContext.Set<TEntity>()
                 .FindAsync(id);
         }
 
         public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
-            _forumContext.Set<TEntity>().Add(entity);
-            await _forumContext.SaveChangesAsync();
+            _gameContext.Set<TEntity>().Add(entity);
+            await _gameContext.SaveChangesAsync();
 
             return entity;
         }
 
         public virtual async Task<bool> DeleteByIdAsync(Guid id)
         {
-            var record = await _forumContext.Set<TEntity>().FindAsync(id);
+            var record = await _gameContext.Set<TEntity>().FindAsync(id);
 
             if (record is null)
             {
                 return false;
             }
 
-            _forumContext.Set<TEntity>().Remove(record);
-            await _forumContext.SaveChangesAsync();
+            _gameContext.Set<TEntity>().Remove(record);
+            await _gameContext.SaveChangesAsync();
 
             return true;
         }
 
         public virtual async Task<bool> UpdateAsync(TEntity entity)
         {
-            _forumContext.Set<TEntity>().Update(entity);
-            await _forumContext.SaveChangesAsync();
+            _gameContext.Set<TEntity>().Update(entity);
+            await _gameContext.SaveChangesAsync();
 
             return true;
         }

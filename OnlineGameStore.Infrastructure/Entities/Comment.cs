@@ -1,6 +1,6 @@
 ﻿namespace OnlineGameStore.Infrastructure.Entities
 {
-    public class Comment
+    public class Comment : IEntity<Guid>
     {
         public Guid Id { get; set; }
 

@@ -6,8 +6,8 @@
 
         public string? Description { get; set; }
 
-        public ICollection<Guid>? GenreId { get; set; }
+        public List<Guid> GenreIds { get; set; } = new();
 
-        public ICollection<Guid>? PlatformId { get; set; }
+        public List<Guid> PlatformIds { get; set; } = new();
     }
 }

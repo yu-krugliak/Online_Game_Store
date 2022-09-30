@@ -1,10 +1,11 @@
 ﻿using OnlineGameStore.Application.Exeptions;
 using OnlineGameStore.Application.Services.Interfaces;
+using OnlineGameStore.Infrastructure.Entities;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Application.Services.Implementation
 {
-    public class ServiceBase<TEntity> : IService<TEntity> where TEntity : class
+    public class ServiceBase<TEntity> : IService<TEntity> where TEntity : class, IEntity<Guid>
     {
         private readonly IRepository<TEntity> _repository;
 
