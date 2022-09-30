@@ -5,9 +5,11 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineGameStore.Api", "OnlineGameStore.Api\OnlineGameStore.Api.csproj", "{864EF723-D86C-4553-9BA9-838137F10584}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineGameStore.Application", "OnlineGameStore.Application\OnlineGameStore.Application.csproj", "{03627E64-24B5-40D1-8CD3-709BC3750083}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineGameStore.Application", "OnlineGameStore.Application\OnlineGameStore.Application.csproj", "{03627E64-24B5-40D1-8CD3-709BC3750083}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineGameStore.Infrastructure", "OnlineGameStore.Infrastructure\OnlineGameStore.Infrastructure.csproj", "{212D92A3-DFDD-42B5-805F-45E35D31DB88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineGameStore.Infrastructure", "OnlineGameStore.Infrastructure\OnlineGameStore.Infrastructure.csproj", "{212D92A3-DFDD-42B5-805F-45E35D31DB88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineGameStore.Application.Tests", "OnlineGameStore.Application.Tests\OnlineGameStore.Application.Tests.csproj", "{F9BC892A-7FBB-4623-8D66-0977489D1938}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{212D92A3-DFDD-42B5-805F-45E35D31DB88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{212D92A3-DFDD-42B5-805F-45E35D31DB88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{212D92A3-DFDD-42B5-805F-45E35D31DB88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9BC892A-7FBB-4623-8D66-0977489D1938}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9BC892A-7FBB-4623-8D66-0977489D1938}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9BC892A-7FBB-4623-8D66-0977489D1938}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9BC892A-7FBB-4623-8D66-0977489D1938}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
