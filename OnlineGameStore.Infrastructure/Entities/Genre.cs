@@ -8,9 +8,10 @@
 
         public string? Description { get; set; }
 
-        public Guid? ParentGenreId { get; set; }
 
+        public Guid? ParentGenreId { get; set; }
         public virtual Genre? ParentGenre { get; set; }
+
 
         public virtual ICollection<Genre>? NestedGenres { get; set; }
 

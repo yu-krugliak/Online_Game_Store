@@ -1,12 +1,11 @@
 ﻿using MapsterMapper;
-using Microsoft.Extensions.DependencyInjection;
 using OnlineGameStore.Application.Mapster;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
 
-namespace OnlineGameStore.Application
+namespace OnlineGameStore.Api.StartupExtensions
 {
-    public static class Startup
+    public static class StartupApplication
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {

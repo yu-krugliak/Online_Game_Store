@@ -6,7 +6,7 @@
         
         public string? Type { get; set; }
 
-        public virtual ICollection<Game>? Games { get; set; }
 
+        public virtual ICollection<Game>? Games { get; set; }
     }
 }

@@ -60,7 +60,6 @@ namespace OnlineGameStore.Application.Services.Implementation
         public async Task<GameView> AddAsync(GameRequest gameRequest)
         {
             var game = _mapper.Map<Game>(gameRequest);
-            game.Key = Guid.NewGuid();
 
             var addedGame = await _gameRepository.AddAsync(game);
 
@@ -103,7 +102,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             foreach (var genreId in genresIds)
             {
                 var genre = await _genreRepository.GetByIdAsync(genreId);
-                CheckEntityIsNull(genre);
+                ThrowIfEntityIsNull(genre);
 
                 game.Genres.Add(genre!);
             }
@@ -114,13 +113,13 @@ namespace OnlineGameStore.Application.Services.Implementation
             foreach (var platformId in platformsIds)
             {
                 var platformType = await _platformRepository.GetByIdAsync(platformId);
-                CheckEntityIsNull(platformType);
+                ThrowIfEntityIsNull(platformType);
 
                 game.Platforms.Add(platformType!);
             }
         }
 
-        private static void CheckEntityIsNull<TEntity>(TEntity? entity)
+        private static void ThrowIfEntityIsNull<TEntity>(TEntity? entity)
             where TEntity : class, IEntity<Guid>
         {
             if (entity is null)

@@ -18,9 +18,7 @@ namespace OnlineGameStore.Application.Mapster
                 .IgnoreNullValues(false);
 
             config.ForType<GameRequest, Game>()
-                /*.Map(g => g.Genres, r => r.GenreIds.Select(id => new Genre() { Id = id }))
-                .Map(g => g.Platforms, r => r.PlatformIds.Select(id => new PlatformType() { Id = id }))
-                */.IgnoreNullValues(true);
+                .IgnoreNullValues(true);
 
             config.ForType<Comment, CommentView>()
                 .IgnoreNullValues(false);

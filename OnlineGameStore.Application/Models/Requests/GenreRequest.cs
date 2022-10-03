@@ -6,6 +6,7 @@
 
         public string? Description { get; set; }
 
+
         public Guid? ParentGenreId { get; set; }
     }
 }

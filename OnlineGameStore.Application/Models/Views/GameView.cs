@@ -10,8 +10,9 @@
 
         public string? Description { get; set; }
         
-        public ICollection<Guid>? GenreIds { get; set; }
 
-        public ICollection<Guid>? PlatformIds { get; set; }
+        public List<Guid>? GenreIds { get; set; }
+
+        public List<Guid>? PlatformIds { get; set; }
     }
 }

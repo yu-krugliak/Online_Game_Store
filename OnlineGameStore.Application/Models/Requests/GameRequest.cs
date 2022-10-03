@@ -6,6 +6,7 @@
 
         public string? Description { get; set; }
 
+
         public List<Guid> GenreIds { get; set; } = new();
 
         public List<Guid> PlatformIds { get; set; } = new();

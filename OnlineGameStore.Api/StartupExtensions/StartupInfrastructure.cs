@@ -1,22 +1,26 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using OnlineGameStore.Infrastructure.Repositories.Interfaces;
+﻿using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 using OnlineGameStore.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using OnlineGameStore.Infrastructure.Repositories.Implementations;
+using OnlineGameStore.Api.Configurations;
 
 namespace OnlineGameStore.Infrastructure
 {
-    public static class Startup
+    public static class StartupInfrastructure
     {
-        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        public static WebApplicationBuilder AddPersistence(this WebApplicationBuilder builder)
         {
-            return services.AddDbContext<GamesContext>((provider, options) =>
+            builder.Services.AddDbContext<GamesContext>((provider, options) =>
             {
-                var connectionString = configuration.GetConnectionString("DbConnection");
-                options.UseSqlServer(connectionString);
+                var connectionConfig = builder.Configuration
+                    .GetSection(DbConnectionConfiguration.SectionName)
+                    .Get<DbConnectionConfiguration>();
+
+                options.UseSqlServer(connectionConfig.MsSqlConnectionString);
             })
             .AddRepositories();
+
+            return builder;
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)

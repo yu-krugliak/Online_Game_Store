@@ -1,4 +1,4 @@
-using OnlineGameStore.Application;
+using OnlineGameStore.Api.StartupExtensions;
 using OnlineGameStore.Infrastructure;
 using System.Text.Json.Serialization;
 
@@ -12,12 +12,7 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors(p => p.AddPolicy("corsapp", policyBuilder =>
-{
-    policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-}));
-
-builder.Services.AddPersistence(builder.Configuration);
+builder.AddPersistence();
 builder.Services.AddApplication();
 
 var app = builder.Build();
@@ -28,8 +23,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseCors("corsapp");
 
 app.UseHttpsRedirection();
 

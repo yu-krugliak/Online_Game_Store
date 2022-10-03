@@ -16,6 +16,5 @@
         public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
         public virtual ICollection<PlatformType> Platforms { get; set; } = new List<PlatformType>();
-
     }
 }
