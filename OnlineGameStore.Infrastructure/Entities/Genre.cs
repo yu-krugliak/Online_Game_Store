@@ -12,7 +12,6 @@
         public Guid? ParentGenreId { get; set; }
         public virtual Genre? ParentGenre { get; set; }
 
-
         public virtual ICollection<Genre>? NestedGenres { get; set; }
 
         public virtual ICollection<Game>? Games { get; set; }

@@ -2,10 +2,11 @@
 {
     public class GameRequest
     {
+        public Guid Key { get; set; }
+
         public string? Name { get; set; }
 
         public string? Description { get; set; }
-
 
         public List<Guid> GenreIds { get; set; } = new();
 
