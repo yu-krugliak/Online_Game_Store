@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
 
-        public Guid Key { get; set; }
+        public string? Key { get; set; }
 
         public string? Name { get; set; }
 

@@ -8,7 +8,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
 
         Task<Game?> GetGameByIdWithDetails(Guid gameId);
 
-        Task<Game?> GetGameByKeyWithDetails(Guid gameKey);
+        Task<Game?> GetGameByKeyWithDetails(string gameKey);
 
         Task<IEnumerable<Game>> GetGamesByGenre(Guid genreId);
 

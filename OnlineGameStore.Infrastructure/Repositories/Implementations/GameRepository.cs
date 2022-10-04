@@ -23,7 +23,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Game?> GetGameByKeyWithDetails(Guid gameKey)
+        public async Task<Game?> GetGameByKeyWithDetails(string gameKey)
         {
             return await _gamesContext.Games
                 .Where(game => game.Key == gameKey)
