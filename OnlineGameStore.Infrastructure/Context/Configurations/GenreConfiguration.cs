@@ -10,8 +10,11 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
         {
             builder.HasKey(genre => genre.Id);
 
-            builder.Property(genre => genre.Name).HasMaxLength(60);
-            builder.Property(genre => genre.Description).HasMaxLength(500);
+            builder.Property(genre => genre.Name)
+                .IsRequired(true).HasMaxLength(60);
+
+            builder.Property(genre => genre.Description)
+                .IsRequired(true).HasMaxLength(500);
 
             builder.HasOne(genre => genre.ParentGenre)
                 .WithMany(parent => parent.NestedGenres)
