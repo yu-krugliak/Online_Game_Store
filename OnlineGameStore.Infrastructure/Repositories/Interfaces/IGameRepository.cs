@@ -13,5 +13,9 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
         Task<IEnumerable<Game>> GetGamesByGenre(Guid genreId);
 
         Task<IEnumerable<Game>> GetGamesByPlatform(Guid platformId);
+
+        Task<bool> RemoveGenresFromGame(Game game);
+
+        Task<bool> RemovePlatformsFromGame(Game game);
     }
 }

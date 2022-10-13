@@ -35,6 +35,13 @@ namespace OnlineGameStore.Api.Controllers
             return Ok();
         }
 
+        [HttpPut("addgenres")]
+        public async Task<IActionResult> UpdateGenresInGame(Guid gameId, [FromBody] List<Guid> genresIds)
+        {
+            await _gameService.UpdateGenresAsync(gameId, genresIds);
+            return Ok();
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteGame(Guid gameId)
         {

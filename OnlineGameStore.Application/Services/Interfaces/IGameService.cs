@@ -19,5 +19,7 @@ namespace OnlineGameStore.Application.Services.Interfaces
         Task DeleteByIdAsync(Guid gameId);
 
         Task UpdateAsync(Guid gameId, GameRequest gameRequest);
+
+        Task UpdateGenresAsync(Guid gameId, List<Guid> genresIds);
     }
 }

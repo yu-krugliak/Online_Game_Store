@@ -51,9 +51,10 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task<GameView> GetByIdAsync(Guid gameId)
         {
-            var game = await GetExistingEntityById(gameId);
+            var game = await _gameRepository.GetGameByIdWithDetails(gameId);
+            ThrowIfEntityIsNull(game);
 
-            var gameView = _mapper.Map<GameView>(game);
+            var gameView = _mapper.Map<GameView>(game!);
             return gameView;
         }
 
@@ -83,23 +84,43 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task UpdateAsync(Guid gameId, GameRequest gameRequest)
         {
-            var game = await GetExistingEntityById(gameId);
+            var game = await _gameRepository.GetGameByIdWithDetails(gameId);
+            ThrowIfEntityIsNull(game);
             _mapper.Map(gameRequest, game);
 
-            await AddGenresToGame(gameRequest.GenreIds, game);
-            await AddPlatformsToGame(gameRequest.PlatformIds, game);
+            await _gameRepository.RemoveGenresFromGame(game!);
+            await _gameRepository.RemovePlatformsFromGame(game!);
 
-            var isUpdated = await _gameRepository.UpdateAsync(game);
+            await AddGenresToGame(gameRequest.GenreIds, game!);
+            await AddPlatformsToGame(gameRequest.PlatformIds, game!);
+
+            var isUpdated = await _gameRepository.UpdateAsync(game!);
 
             if (!isUpdated)
             {
                 throw new ServerErrorException("Can't update this game.", null);
             }
-        }    
+        }
+
+        public async Task UpdateGenresAsync(Guid gameId, List<Guid> genresIds)
+        {
+            var game = await _gameRepository.GetGameByIdWithDetails(gameId);
+            ThrowIfEntityIsNull(game);
+
+            await _gameRepository.RemoveGenresFromGame(game!);
+            await AddGenresToGame(genresIds, game!);
+
+            var isUpdated = await _gameRepository.UpdateAsync(game!);
+
+            if (!isUpdated)
+            {
+                throw new ServerErrorException("Can't add genres to this game.", null);
+            }
+        }
 
         private async Task AddGenresToGame(IEnumerable<Guid> genresIds, Game game)
         {
-            foreach (var genreId in genresIds)
+            foreach (var genreId in genresIds.Distinct())
             {
                 var genre = await _genreRepository.GetByIdAsync(genreId);
                 ThrowIfEntityIsNull(genre);
@@ -110,7 +131,7 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         private async Task AddPlatformsToGame(IEnumerable<Guid> platformsIds, Game game)
         {
-            foreach (var platformId in platformsIds)
+            foreach (var platformId in platformsIds.Distinct())
             {
                 var platformType = await _platformRepository.GetByIdAsync(platformId);
                 ThrowIfEntityIsNull(platformType);

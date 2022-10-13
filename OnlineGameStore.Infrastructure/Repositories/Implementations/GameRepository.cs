@@ -61,5 +61,21 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .Include(game => game.Platforms)
                 .ToListAsync();
         }
+
+        public async Task<bool> RemoveGenresFromGame(Game game)
+        {
+            game.Genres.Clear();
+            await _gamesContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> RemovePlatformsFromGame(Game game)
+        {
+            game.Platforms.Clear();
+            await _gamesContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
