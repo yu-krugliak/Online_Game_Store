@@ -32,15 +32,25 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Game>> GetGamesByGenre(int genreId)
+        public async Task<IEnumerable<Game>> FilterGamesByGenresAndNameAsync(List<int> genresIds, string? name)
         {
-            return await _gamesContext.Games
+            var filtered = _gamesContext.Games
                 .Include(game => game.Genres)
-                .Where(game =>
-                    game.Genres!.Any(genre => genre.Id == genreId)
-                )
                 .Include(game => game.Platforms)
-                .ToListAsync();
+                .AsNoTracking();
+
+            if (genresIds.Any())
+            {
+                filtered = filtered.Where(game =>
+                    game.Genres!.Any(genre => genresIds.Contains(genre.Id)));
+            }
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                filtered = filtered.Where(game => game.Name!.Contains(name));
+            }
+
+            return await filtered.ToListAsync();
         }
 
         public async Task<IEnumerable<Game>> GetGamesWithDetails()

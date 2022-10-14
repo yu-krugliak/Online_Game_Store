@@ -10,7 +10,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
 
         Task<Game?> GetGameByKeyWithDetails(string gameKey);
 
-        Task<IEnumerable<Game>> GetGamesByGenre(int genreId);
+        Task<IEnumerable<Game>> FilterGamesByGenresAndNameAsync(List<int> genresIds, string? name);
 
         Task<bool> RemoveGenresFromGame(Game game);
 

@@ -8,7 +8,7 @@ namespace OnlineGameStore.Application.Services.Interfaces
     {
         Task<IEnumerable<GameView>> GetAllAsync();
 
-        Task<IEnumerable<GameView>> GetByGenre(int genreId);
+        Task<IEnumerable<GameView>> GetByGenresAndNameAsync(List<int> genresIds, string? name);
 
         Task<GameView> GetByIdAsync(int gameId);
 

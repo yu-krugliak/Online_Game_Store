@@ -55,10 +55,10 @@ namespace OnlineGameStore.Api.Controllers
             return Ok(await _gameService.GetByIdAsync(id));
         }
 
-        [HttpGet("bygenre")]
-        public async Task<IActionResult> GetAllGamesByGenre(int genreId)
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetGameByGenresAndName(string? name, [FromQuery] List<int> genresIds)
         {
-            return Ok(await _gameService.GetByGenre(genreId));
+            return Ok(await _gameService.GetByGenresAndNameAsync(genresIds, name));
         }
     }
 }

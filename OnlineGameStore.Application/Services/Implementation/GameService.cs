@@ -33,9 +33,9 @@ namespace OnlineGameStore.Application.Services.Implementation
             return gamesViews;
         }
 
-        public async Task<IEnumerable<GameView>> GetByGenre(int genreId)
+        public async Task<IEnumerable<GameView>> GetByGenresAndNameAsync(List<int> genresIds, string? name)
         {
-            var games = await _gameRepository.GetGamesByGenre(genreId);
+            var games = await _gameRepository.FilterGamesByGenresAndNameAsync(genresIds, name);
 
             var gamesViews = _mapper.Map<IEnumerable<GameView>>(games);
             return gamesViews;
