@@ -22,7 +22,10 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
             builder.Property(game => game.Price)
                 .HasPrecision(7, 2);
 
-            builder.HasMany(game => game.Comments)
+            builder.Property(game => game.ImageUrl)
+                .HasMaxLength(2083);
+
+        builder.HasMany(game => game.Comments)
                 .WithOne(comment => comment.Game)
                 .HasForeignKey(comment => comment.GameId)
                 .OnDelete(DeleteBehavior.Cascade)

@@ -10,6 +10,8 @@
 
         public decimal Price { get; set; }
 
+        public string? ImageUrl { get; set; }
+
         public List<int> GenreIds { get; set; } = new();
 
         public List<int> PlatformIds { get; set; } = new();

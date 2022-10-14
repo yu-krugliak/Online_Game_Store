@@ -12,6 +12,8 @@
         
         public decimal Price { get; set; }
 
+        public string? ImageUrl { get; set; }
+
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
