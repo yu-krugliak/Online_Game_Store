@@ -2,7 +2,7 @@
 {
     public class CommentView
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string? Name { get; set; }
 
@@ -10,8 +10,8 @@
 
         public string? Body { get; set; }
 
-        public Guid? ParentCommentId { get; set; }
+        public int? ParentCommentId { get; set; }
 
-        public Guid? GameId { get; set; }
+        public int? GameId { get; set; }
     }
 }

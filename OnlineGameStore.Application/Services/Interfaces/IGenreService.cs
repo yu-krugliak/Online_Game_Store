@@ -8,7 +8,7 @@ namespace OnlineGameStore.Application.Services.Interfaces
     {
         Task<IEnumerable<GenreView>> GetAllAsync();
 
-        Task<GenreView> GetByIdAsync(Guid genreId);
+        Task<GenreView> GetByIdAsync(int genreId);
 
         Task<GenreView> AddAsync(GenreRequest genreRequest);
     }

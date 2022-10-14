@@ -6,8 +6,8 @@
 
         public string? Body { get; set; }
 
-        public Guid? ParentCommentId { get; set; }
+        public int? ParentCommentId { get; set; }
 
-        public Guid? GameId { get; set; }
+        public int? GameId { get; set; }
     }
 }

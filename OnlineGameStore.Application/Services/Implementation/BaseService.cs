@@ -5,7 +5,7 @@ using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Application.Services.Implementation
 {
-    public class ServiceBase<TEntity> : IService<TEntity> where TEntity : class, IEntity<Guid>
+    public class ServiceBase<TEntity> : IService<TEntity> where TEntity : class, IEntity<int>
     {
         private readonly IRepository<TEntity> _repository;
 
@@ -14,7 +14,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             _repository = repository;
         }
 
-        public async Task<TEntity> GetExistingEntityById(Guid id)
+        public async Task<TEntity> GetExistingEntityById(int id)
         {
             var entity = await _repository.GetByIdAsync(id);
 

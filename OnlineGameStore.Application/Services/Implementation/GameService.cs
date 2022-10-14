@@ -33,7 +33,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             return gamesViews;
         }
 
-        public async Task<IEnumerable<GameView>> GetByGenre(Guid genreId)
+        public async Task<IEnumerable<GameView>> GetByGenre(int genreId)
         {
             var games = await _gameRepository.GetGamesByGenre(genreId);
 
@@ -41,15 +41,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             return gamesViews;
         }
 
-        public async Task<IEnumerable<GameView>> GetByPlatform(Guid platformId)
-        {
-            var games = await _gameRepository.GetGamesByPlatform(platformId);
-
-            var gamesViews = _mapper.Map<IEnumerable<GameView>>(games);
-            return gamesViews;
-        }
-
-        public async Task<GameView> GetByIdAsync(Guid gameId)
+        public async Task<GameView> GetByIdAsync(int gameId)
         {
             var game = await _gameRepository.GetGameByIdWithDetails(gameId);
             ThrowIfEntityIsNull(game);
@@ -72,7 +64,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             return _mapper.Map<GameView>(addedGame);
         }
 
-        public async Task DeleteByIdAsync(Guid gameId)
+        public async Task DeleteByIdAsync(int gameId)
         {
             var isDeleted = await _gameRepository.DeleteByIdAsync(gameId);
 
@@ -82,7 +74,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             }
         }
 
-        public async Task UpdateAsync(Guid gameId, GameRequest gameRequest)
+        public async Task UpdateAsync(int gameId, GameRequest gameRequest)
         {
             var game = await _gameRepository.GetGameByIdWithDetails(gameId);
             ThrowIfEntityIsNull(game);
@@ -102,7 +94,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             }
         }
 
-        public async Task UpdateGenresAsync(Guid gameId, List<Guid> genresIds)
+        public async Task UpdateGenresAsync(int gameId, List<int> genresIds)
         {
             var game = await _gameRepository.GetGameByIdWithDetails(gameId);
             ThrowIfEntityIsNull(game);
@@ -118,7 +110,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             }
         }
 
-        private async Task AddGenresToGame(IEnumerable<Guid> genresIds, Game game)
+        private async Task AddGenresToGame(IEnumerable<int> genresIds, Game game)
         {
             foreach (var genreId in genresIds.Distinct())
             {
@@ -129,7 +121,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             }
         }
 
-        private async Task AddPlatformsToGame(IEnumerable<Guid> platformsIds, Game game)
+        private async Task AddPlatformsToGame(IEnumerable<int> platformsIds, Game game)
         {
             foreach (var platformId in platformsIds.Distinct())
             {
@@ -141,7 +133,7 @@ namespace OnlineGameStore.Application.Services.Implementation
         }
 
         private static void ThrowIfEntityIsNull<TEntity>(TEntity? entity)
-            where TEntity : class, IEntity<Guid>
+            where TEntity : class, IEntity<int>
         {
             if (entity is null)
             {

@@ -47,8 +47,8 @@ namespace OnlineGameStore.Application.Mapster
             return services.AddSingleton(config);
         }
 
-        private static IEnumerable<Guid>? SelectIdsFromCollection<TEntity>(IEnumerable<TEntity>? collection)
-            where TEntity : class, IEntity<Guid>
+        private static IEnumerable<int>? SelectIdsFromCollection<TEntity>(IEnumerable<TEntity>? collection)
+            where TEntity : class, IEntity<int>
         {
             return collection?.Select(entity => entity.Id);
         }

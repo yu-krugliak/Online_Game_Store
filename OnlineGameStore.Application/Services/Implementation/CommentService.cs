@@ -18,7 +18,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             _mapper = mapper;   
         }
 
-        public async Task<IEnumerable<CommentView>> GetByGame(Guid gameId)
+        public async Task<IEnumerable<CommentView>> GetByGame(int gameId)
         {
             var comments = await _commentRepository.GetByGameId(gameId);
 
@@ -26,7 +26,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             return commentsViews;
         }
 
-        public async Task<CommentView> GetByIdAsync(Guid commentId)
+        public async Task<CommentView> GetByIdAsync(int commentId)
         {
             var comment = await GetExistingEntityById(commentId);
 

@@ -26,7 +26,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             return genreViews;
         }
 
-        public async Task<GenreView> GetByIdAsync(Guid genreId)
+        public async Task<GenreView> GetByIdAsync(int genreId)
         {
             var genre = await GetExistingEntityById(genreId);
 

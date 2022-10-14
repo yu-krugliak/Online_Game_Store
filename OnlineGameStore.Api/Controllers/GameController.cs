@@ -29,42 +29,36 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateGame(Guid gameId, [FromBody] GameRequest request)
+        public async Task<IActionResult> UpdateGame(int gameId, [FromBody] GameRequest request)
         {
             await _gameService.UpdateAsync(gameId, request);
             return Ok();
         }
 
         [HttpPut("addgenres")]
-        public async Task<IActionResult> UpdateGenresInGame(Guid gameId, [FromBody] List<Guid> genresIds)
+        public async Task<IActionResult> UpdateGenresInGame(int gameId, [FromBody] List<int> genresIds)
         {
             await _gameService.UpdateGenresAsync(gameId, genresIds);
             return Ok();
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteGame(Guid gameId)
+        public async Task<IActionResult> DeleteGame(int gameId)
         {
             await _gameService.DeleteByIdAsync(gameId);
             return Ok();
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetGameById(Guid id)
+        public async Task<IActionResult> GetGameById(int id)
         {
             return Ok(await _gameService.GetByIdAsync(id));
         }
 
         [HttpGet("bygenre")]
-        public async Task<IActionResult> GetAllGamesByGenre(Guid genreId)
+        public async Task<IActionResult> GetAllGamesByGenre(int genreId)
         {
             return Ok(await _gameService.GetByGenre(genreId));
-        }
-
-        [HttpGet("byplatform")]
-        public async Task<IActionResult> GetAllGamesByPlatform(Guid platformId)
-        {
-            return Ok(await _gameService.GetByPlatform(platformId));
         }
     }
 }

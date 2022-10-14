@@ -6,13 +6,11 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
     {
         Task<IEnumerable<Game>> GetGamesWithDetails();
 
-        Task<Game?> GetGameByIdWithDetails(Guid gameId);
+        Task<Game?> GetGameByIdWithDetails(int gameId);
 
         Task<Game?> GetGameByKeyWithDetails(string gameKey);
 
-        Task<IEnumerable<Game>> GetGamesByGenre(Guid genreId);
-
-        Task<IEnumerable<Game>> GetGamesByPlatform(Guid platformId);
+        Task<IEnumerable<Game>> GetGamesByGenre(int genreId);
 
         Task<bool> RemoveGenresFromGame(Game game);
 

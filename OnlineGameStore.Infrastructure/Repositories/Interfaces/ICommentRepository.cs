@@ -4,6 +4,6 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
 {
     public interface ICommentRepository : IRepository<Comment>
     {
-        Task<IEnumerable<Comment>> GetByGameId(Guid gameId);
+        Task<IEnumerable<Comment>> GetByGameId(int gameId);
     }
 }

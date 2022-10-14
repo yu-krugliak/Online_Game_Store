@@ -1,8 +1,8 @@
 ﻿namespace OnlineGameStore.Infrastructure.Entities
 {
-    public class Game : IEntity<Guid>
+    public class Game : IEntity<int>
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string? Key { get; set; }
 

@@ -14,7 +14,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             _gamesContext = gamesContext;
         }
 
-        public async Task<Game?> GetGameByIdWithDetails(Guid gameId)
+        public async Task<Game?> GetGameByIdWithDetails(int gameId)
         {
             return await _gamesContext.Games
                 .Where(game => game.Id == gameId)
@@ -32,7 +32,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Game>> GetGamesByGenre(Guid genreId)
+        public async Task<IEnumerable<Game>> GetGamesByGenre(int genreId)
         {
             return await _gamesContext.Games
                 .Include(game => game.Genres)
@@ -40,17 +40,6 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                     game.Genres!.Any(genre => genre.Id == genreId)
                 )
                 .Include(game => game.Platforms)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Game>> GetGamesByPlatform(Guid platformId)
-        {
-            return await _gamesContext.Games
-                .Include(game => game.Platforms)
-                .Where(game => 
-                    game.Platforms!.Any(platform => platform.Id == platformId)
-                )
-                .Include(game => game.Genres)
                 .ToListAsync();
         }
 

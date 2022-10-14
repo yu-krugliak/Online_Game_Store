@@ -8,18 +8,16 @@ namespace OnlineGameStore.Application.Services.Interfaces
     {
         Task<IEnumerable<GameView>> GetAllAsync();
 
-        Task<IEnumerable<GameView>> GetByGenre(Guid genreId);
+        Task<IEnumerable<GameView>> GetByGenre(int genreId);
 
-        Task<IEnumerable<GameView>> GetByPlatform(Guid platformId);
-
-        Task<GameView> GetByIdAsync(Guid gameId);
+        Task<GameView> GetByIdAsync(int gameId);
 
         Task<GameView> AddAsync(GameRequest gameRequest);
 
-        Task DeleteByIdAsync(Guid gameId);
+        Task DeleteByIdAsync(int gameId);
 
-        Task UpdateAsync(Guid gameId, GameRequest gameRequest);
+        Task UpdateAsync(int gameId, GameRequest gameRequest);
 
-        Task UpdateGenresAsync(Guid gameId, List<Guid> genresIds);
+        Task UpdateGenresAsync(int gameId, List<int> genresIds);
     }
 }
