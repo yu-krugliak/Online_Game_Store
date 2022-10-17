@@ -14,10 +14,12 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _gameContext.Set<TEntity>().ToListAsync();
+            return await _gameContext.Set<TEntity>()
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public virtual async Task<TEntity?> GetByIdAsync(Guid id)
+        public virtual async Task<TEntity?> GetByIdAsync(int id)
         {
             return await _gameContext.Set<TEntity>()
                 .FindAsync(id);
@@ -31,7 +33,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             return entity;
         }
 
-        public virtual async Task<bool> DeleteByIdAsync(Guid id)
+        public virtual async Task<bool> DeleteByIdAsync(int id)
         {
             var record = await _gameContext.Set<TEntity>().FindAsync(id);
 

@@ -8,7 +8,7 @@ namespace OnlineGameStore.Application.Services.Interfaces
     {
         Task<IEnumerable<PlatformView>> GetAllAsync();
 
-        Task<PlatformView> GetByIdAsync(Guid platformId);
+        Task<PlatformView> GetByIdAsync(int platformId);
 
         Task<PlatformView> AddAsync(PlatformRequest platformRequest);
     }

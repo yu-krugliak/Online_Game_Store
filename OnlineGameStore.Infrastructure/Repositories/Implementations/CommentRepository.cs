@@ -14,10 +14,12 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             _gamesContext = gamesContext;
         }
 
-        public async Task<IEnumerable<Comment>> GetByGameId(Guid gameId)
+        public async Task<IEnumerable<Comment>> GetByGameId(int gameId)
         {
             return await _gamesContext.Comments
-                .Where(c => c.GameId == gameId).ToListAsync();
+                .Where(c => c.GameId == gameId)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

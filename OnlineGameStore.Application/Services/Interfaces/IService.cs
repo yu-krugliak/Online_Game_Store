@@ -2,6 +2,6 @@
 {
     public interface IService<TEntity> where TEntity : class
     {
-        Task<TEntity> GetExistingEntityById(Guid id);
+        Task<TEntity> GetExistingEntityById(int id);
     }
 }

@@ -8,8 +8,10 @@
 
         public string? Description { get; set; }
 
-        public List<Guid> GenreIds { get; set; } = new();
+        public decimal Price { get; set; }
 
-        public List<Guid> PlatformIds { get; set; } = new();
+        public List<int> GenreIds { get; set; } = new();
+
+        public List<int> PlatformIds { get; set; } = new();
     }
 }

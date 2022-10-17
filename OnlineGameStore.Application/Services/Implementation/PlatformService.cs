@@ -26,7 +26,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             return platformViews;
         }
 
-        public async Task<PlatformView> GetByIdAsync(Guid platformId)
+        public async Task<PlatformView> GetByIdAsync(int platformId)
         {
             var platform = await GetExistingEntityById(platformId);
 

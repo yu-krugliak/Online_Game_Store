@@ -10,11 +10,22 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
         {
             builder.HasKey(game => game.Id);
 
-            builder.Property(game => game.Key).HasMaxLength(100);
-            builder.Property(game => game.Name).HasMaxLength(100);
-            builder.Property(game => game.Description).HasMaxLength(500);
+            builder.Property(game => game.Key)
+                .IsRequired(true).HasMaxLength(100);
 
-            builder.HasMany(game => game.Comments)
+            builder.Property(game => game.Name)
+                .IsRequired(true).HasMaxLength(100);
+
+            builder.Property(game => game.Description)
+                .IsRequired(true).HasMaxLength(500);
+
+            builder.Property(game => game.Price)
+                .HasPrecision(7, 2);
+
+            builder.Property(game => game.ImageUrl)
+                .HasMaxLength(2083);
+
+        builder.HasMany(game => game.Comments)
                 .WithOne(comment => comment.Game)
                 .HasForeignKey(comment => comment.GameId)
                 .OnDelete(DeleteBehavior.Cascade)

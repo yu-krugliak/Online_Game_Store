@@ -14,12 +14,13 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             _gamesContext = gamesContext;
         }
 
-        public async Task<Game?> GetGameByIdWithDetails(Guid gameId)
+        public async Task<Game?> GetGameByIdWithDetails(int gameId)
         {
             return await _gamesContext.Games
                 .Where(game => game.Id == gameId)
                 .Include(game => game.Genres)
                 .Include(game => game.Platforms)
+                .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
 
@@ -29,29 +30,29 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .Where(game => game.Key == gameKey)
                 .Include(game => game.Genres)
                 .Include(game => game.Platforms)
+                .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Game>> GetGamesByGenre(Guid genreId)
+        public async Task<IEnumerable<Game>> FilterGamesByGenresAndNameAsync(List<int> genresIds, string? name)
         {
-            return await _gamesContext.Games
+            var filtered = _gamesContext.Games
                 .Include(game => game.Genres)
-                .Where(game =>
-                    game.Genres!.Any(genre => genre.Id == genreId)
-                )
                 .Include(game => game.Platforms)
-                .ToListAsync();
-        }
+                .AsNoTracking();
 
-        public async Task<IEnumerable<Game>> GetGamesByPlatform(Guid platformId)
-        {
-            return await _gamesContext.Games
-                .Include(game => game.Platforms)
-                .Where(game => 
-                    game.Platforms!.Any(platform => platform.Id == platformId)
-                )
-                .Include(game => game.Genres)
-                .ToListAsync();
+            if (genresIds.Any())
+            {
+                filtered = filtered.Where(game =>
+                    game.Genres!.Any(genre => genresIds.Contains(genre.Id)));
+            }
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                filtered = filtered.Where(game => game.Name!.Contains(name));
+            }
+
+            return await filtered.ToListAsync();
         }
 
         public async Task<IEnumerable<Game>> GetGamesWithDetails()
@@ -59,7 +60,24 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             return await _gamesContext.Games
                 .Include(game => game.Genres)
                 .Include(game => game.Platforms)
+                .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public async Task<bool> RemoveGenresFromGame(Game game)
+        {
+            game.Genres.Clear();
+            await _gamesContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> RemovePlatformsFromGame(Game game)
+        {
+            game.Platforms.Clear();
+            await _gamesContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using OnlineGameStore.Application.Models.Requests;
+﻿using Microsoft.AspNetCore.Http;
+using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Infrastructure.Entities;
 
@@ -8,16 +9,16 @@ namespace OnlineGameStore.Application.Services.Interfaces
     {
         Task<IEnumerable<GameView>> GetAllAsync();
 
-        Task<IEnumerable<GameView>> GetByGenre(Guid genreId);
+        Task<IEnumerable<GameView>> GetByGenresAndNameAsync(List<int> genresIds, string? name);
 
-        Task<IEnumerable<GameView>> GetByPlatform(Guid platformId);
-
-        Task<GameView> GetByIdAsync(Guid gameId);
+        Task<GameView> GetByIdAsync(int gameId);
 
         Task<GameView> AddAsync(GameRequest gameRequest);
 
-        Task DeleteByIdAsync(Guid gameId);
+        Task DeleteByIdAsync(int gameId);
 
-        Task UpdateAsync(Guid gameId, GameRequest gameRequest);
+        Task UpdateAsync(int gameId, GameRequest gameRequest);
+
+        Task UpdateImageAsync(int gameId, IFormFile image);
     }
 }

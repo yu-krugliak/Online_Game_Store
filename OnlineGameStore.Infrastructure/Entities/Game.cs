@@ -1,14 +1,18 @@
 ﻿namespace OnlineGameStore.Infrastructure.Entities
 {
-    public class Game : IEntity<Guid>
+    public class Game : IEntity<int>
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string? Key { get; set; }
 
         public string? Name { get; set; }
 
         public string? Description { get; set; }
+        
+        public decimal Price { get; set; }
+
+        public string? ImageUrl { get; set; }
 
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

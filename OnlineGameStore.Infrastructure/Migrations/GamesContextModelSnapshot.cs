@@ -24,11 +24,11 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             modelBuilder.Entity("GameGenre", b =>
                 {
-                    b.Property<Guid>("GamesId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("GamesId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("GenresId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("GenresId")
+                        .HasColumnType("int");
 
                     b.HasKey("GamesId", "GenresId");
 
@@ -39,11 +39,11 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             modelBuilder.Entity("GamePlatformType", b =>
                 {
-                    b.Property<Guid>("GamesId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("GamesId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("PlatformsId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PlatformsId")
+                        .HasColumnType("int");
 
                     b.HasKey("GamesId", "PlatformsId");
 
@@ -54,26 +54,30 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             modelBuilder.Entity("OnlineGameStore.Infrastructure.Entities.Comment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Body")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("DatePosted")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("GameId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("GameId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<Guid?>("ParentCommentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("ParentCommentId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -86,21 +90,34 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             modelBuilder.Entity("OnlineGameStore.Infrastructure.Entities.Game", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(2083)
+                        .HasColumnType("nvarchar(2083)");
+
                     b.Property<string>("Key")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(7, 2)
+                        .HasColumnType("decimal(7,2)");
 
                     b.HasKey("Id");
 
@@ -109,20 +126,24 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             modelBuilder.Entity("OnlineGameStore.Infrastructure.Entities.Genre", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<Guid?>("ParentGenreId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("ParentGenreId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -133,11 +154,14 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             modelBuilder.Entity("OnlineGameStore.Infrastructure.Entities.PlatformType", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
