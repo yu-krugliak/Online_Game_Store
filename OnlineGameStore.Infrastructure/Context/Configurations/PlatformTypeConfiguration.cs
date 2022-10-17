@@ -14,7 +14,7 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
                 .IsRequired(true).HasMaxLength(60);
 
             builder.HasMany(platform => platform.Games)
-                .WithMany(game => game.Platforms)   ;
+                .WithMany(game => game.Platforms);
         }
     }
 }

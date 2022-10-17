@@ -17,7 +17,9 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
         public async Task<IEnumerable<Comment>> GetByGameId(int gameId)
         {
             return await _gamesContext.Comments
-                .Where(c => c.GameId == gameId).ToListAsync();
+                .Where(c => c.GameId == gameId)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

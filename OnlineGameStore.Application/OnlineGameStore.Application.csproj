@@ -16,4 +16,8 @@
     <ProjectReference Include="..\OnlineGameStore.Infrastructure\OnlineGameStore.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

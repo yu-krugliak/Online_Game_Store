@@ -35,13 +35,6 @@ namespace OnlineGameStore.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("addgenres")]
-        public async Task<IActionResult> UpdateGenresInGame(int gameId, [FromBody] List<int> genresIds)
-        {
-            await _gameService.UpdateGenresAsync(gameId, genresIds);
-            return Ok();
-        }
-
         [HttpPut("addimage")]
         public async Task<IActionResult> UpdateImageInGame(int gameId, IFormFile image)
         {

@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Http;
 using OnlineGameStore.Application.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using OnlineGameStore.Api.Configurations;
+using OnlineGameStore.Application.Services.Constants;
 
 namespace OnlineGameStore.Application.Services.Implementation
 {
     public class StorageService : IStorageService
     {
-        private const string Tags = "Game_PhotoAlbum";
         private readonly Cloudinary _cloudinary;
 
         public StorageService(IOptions<CloudinaryAccountOptions> options)
@@ -25,8 +25,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             var result = await _cloudinary.UploadAsync(new ImageUploadParams
             {
                 File = new FileDescription(image.FileName, image.OpenReadStream()),
-                Tags = Tags,
-                Folder = $"OnlineGameStoreMedia/{folder}"
+                Folder = Path.Combine(FolderNamesConstants.Root, folder)
             }).ConfigureAwait(false);
 
             return result.Url.OriginalString;

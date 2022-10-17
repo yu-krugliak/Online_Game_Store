@@ -1,9 +1,9 @@
 ﻿using MapsterMapper;
 using Microsoft.AspNetCore.Http;
 using OnlineGameStore.Application.Exeptions;
-using OnlineGameStore.Application.Helpers;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
+using OnlineGameStore.Application.Services.Constants;
 using OnlineGameStore.Application.Services.Interfaces;
 using OnlineGameStore.Infrastructure.Entities;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
@@ -98,28 +98,12 @@ namespace OnlineGameStore.Application.Services.Implementation
             }
         }
 
-        public async Task UpdateGenresAsync(int gameId, List<int> genresIds)
-        {
-            var game = await _gameRepository.GetGameByIdWithDetails(gameId);
-            ThrowIfEntityIsNull(game);
-
-            await _gameRepository.RemoveGenresFromGame(game!);
-            await AddGenresToGame(genresIds, game!);
-
-            var isUpdated = await _gameRepository.UpdateAsync(game!);
-
-            if (!isUpdated)
-            {
-                throw new ServerErrorException("Can't add genres to this game.", null);
-            }
-        }
-
         public async Task UpdateImageAsync(int gameId, IFormFile image)
         {
             var game = await _gameRepository.GetGameByIdWithDetails(gameId);
             ThrowIfEntityIsNull(game);
 
-            var imageUrl = await _storageService.UploadImageAsync(image, ImagesFolderConstants.GamesImages);
+            var imageUrl = await _storageService.UploadImageAsync(image, FolderNamesConstants.GamesPictures);
             game!.ImageUrl = imageUrl;
 
             var isUpdated = await _gameRepository.UpdateAsync(game!);

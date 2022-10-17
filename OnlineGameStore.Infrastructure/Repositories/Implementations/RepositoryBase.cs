@@ -14,7 +14,9 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _gameContext.Set<TEntity>().ToListAsync();
+            return await _gameContext.Set<TEntity>()
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public virtual async Task<TEntity?> GetByIdAsync(int id)

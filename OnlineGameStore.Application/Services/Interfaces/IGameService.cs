@@ -19,8 +19,6 @@ namespace OnlineGameStore.Application.Services.Interfaces
 
         Task UpdateAsync(int gameId, GameRequest gameRequest);
 
-        Task UpdateGenresAsync(int gameId, List<int> genresIds);
-
         Task UpdateImageAsync(int gameId, IFormFile image);
     }
 }

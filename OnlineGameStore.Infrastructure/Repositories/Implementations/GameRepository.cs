@@ -20,6 +20,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .Where(game => game.Id == gameId)
                 .Include(game => game.Genres)
                 .Include(game => game.Platforms)
+                .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
 
@@ -29,6 +30,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .Where(game => game.Key == gameKey)
                 .Include(game => game.Genres)
                 .Include(game => game.Platforms)
+                .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
 
@@ -58,6 +60,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             return await _gamesContext.Games
                 .Include(game => game.Genres)
                 .Include(game => game.Platforms)
+                .AsNoTracking()
                 .ToListAsync();
         }
 
