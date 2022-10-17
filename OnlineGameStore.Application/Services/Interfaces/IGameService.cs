@@ -1,4 +1,5 @@
-﻿using OnlineGameStore.Application.Models.Requests;
+﻿using Microsoft.AspNetCore.Http;
+using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Infrastructure.Entities;
 
@@ -19,5 +20,7 @@ namespace OnlineGameStore.Application.Services.Interfaces
         Task UpdateAsync(int gameId, GameRequest gameRequest);
 
         Task UpdateGenresAsync(int gameId, List<int> genresIds);
+
+        Task UpdateImageAsync(int gameId, IFormFile image);
     }
 }

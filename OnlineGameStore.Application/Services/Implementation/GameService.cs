@@ -1,5 +1,7 @@
 ﻿using MapsterMapper;
+using Microsoft.AspNetCore.Http;
 using OnlineGameStore.Application.Exeptions;
+using OnlineGameStore.Application.Helpers;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Interfaces;
@@ -13,16 +15,18 @@ namespace OnlineGameStore.Application.Services.Implementation
         private readonly IGameRepository _gameRepository;
         private readonly IGenreRepository _genreRepository;
         private readonly IPlatformRepository _platformRepository;
-
+        private readonly IStorageService _storageService;
         private readonly IMapper _mapper;
 
         public GameService(IGameRepository gameRepository, IGenreRepository genreRepository, 
-            IPlatformRepository platformRepository, IMapper mapper) : base(gameRepository)
+            IPlatformRepository platformRepository, IStorageService storageService, 
+            IMapper mapper) : base(gameRepository)
         {
             _gameRepository = gameRepository;
             _genreRepository = genreRepository;
             _platformRepository = platformRepository;
             _mapper = mapper;
+            _storageService = storageService;
         }
 
         public async Task<IEnumerable<GameView>> GetAllAsync()
@@ -107,6 +111,22 @@ namespace OnlineGameStore.Application.Services.Implementation
             if (!isUpdated)
             {
                 throw new ServerErrorException("Can't add genres to this game.", null);
+            }
+        }
+
+        public async Task UpdateImageAsync(int gameId, IFormFile image)
+        {
+            var game = await _gameRepository.GetGameByIdWithDetails(gameId);
+            ThrowIfEntityIsNull(game);
+
+            var imageUrl = await _storageService.UploadImageAsync(image, ImagesFolderConstants.GamesImages);
+            game!.ImageUrl = imageUrl;
+
+            var isUpdated = await _gameRepository.UpdateAsync(game!);
+
+            if (!isUpdated)
+            {
+                throw new ServerErrorException("Can't add image to this game.", null);
             }
         }
 

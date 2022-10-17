@@ -42,6 +42,13 @@ namespace OnlineGameStore.Api.Controllers
             return Ok();
         }
 
+        [HttpPut("addimage")]
+        public async Task<IActionResult> UpdateImageInGame(int gameId, IFormFile image)
+        {
+            await _gameService.UpdateImageAsync(gameId, image);
+            return Ok();
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteGame(int gameId)
         {

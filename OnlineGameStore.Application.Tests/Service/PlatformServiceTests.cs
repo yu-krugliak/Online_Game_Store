@@ -1,12 +1,8 @@
-﻿using FluentAssertions;
-using MapsterMapper;
+﻿using MapsterMapper;
 using Moq;
-using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
-using OnlineGameStore.Infrastructure.Entities;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
-using Xunit;
 
 namespace OnlineGameStore.Application.Tests.Service
 {
