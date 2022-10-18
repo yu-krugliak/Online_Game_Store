@@ -2,6 +2,7 @@
 using FluentAssertions;
 using MapsterMapper;
 using NSubstitute;
+using OnlineGameStore.Application.Exeptions;
 using OnlineGameStore.Application.Mapster;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
@@ -69,6 +70,24 @@ namespace OnlineGameStore.Application.Tests.Services
             result.Name.Should().Be(genreView.Name);
             result.Description.Should().Be(genreView.Description);
             result.ParentGenreId.Should().Be(genreView.ParentGenreId);
+        }
+
+        [Fact]
+        public async Task GetByIdAsync_WhenNotExists_ShouldThrowNotFound()
+        {
+            // Arrange
+            var id = _fixture.Create<int>();
+            _genreRepository.GetByIdAsync(Arg.Any<int>()).Returns((Genre?)null);
+
+            // Act
+            Func<Task> act = async () => await _sut.GetByIdAsync(id);
+
+            // Assert
+            await act.Should()
+                .ThrowAsync<NotFoundException>()
+                .WithMessage("Genre with such id doesn't exist.");
+
+            await _genreRepository.Received(1).GetByIdAsync(id);
         }
 
         [Fact]

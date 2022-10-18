@@ -2,11 +2,13 @@
 using FluentAssertions;
 using MapsterMapper;
 using NSubstitute;
+using OnlineGameStore.Application.Exeptions;
 using OnlineGameStore.Application.Mapster;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Infrastructure.Entities;
+using OnlineGameStore.Infrastructure.Repositories.Implementations;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 using Xunit;
 
@@ -65,6 +67,24 @@ namespace OnlineGameStore.Application.Tests.Services
             await _platformRepository.Received(1).GetByIdAsync(id);
             result.Id.Should().Be(platformView.Id);
             result.Type.Should().Be(platformView.Type);
+        }
+
+        [Fact]
+        public async Task GetByIdAsync_WhenNotExists_ShouldThrowNotFound()
+        {
+            // Arrange
+            var id = _fixture.Create<int>();
+            _platformRepository.GetByIdAsync(Arg.Any<int>()).Returns((PlatformType?)null);
+
+            // Act
+            Func<Task> act = async () => await _sut.GetByIdAsync(id);
+
+            // Assert
+            await act.Should()
+            .ThrowAsync<NotFoundException>()
+                .WithMessage("PlatformType with such id doesn't exist.");
+
+            await _platformRepository.Received(1).GetByIdAsync(id);
         }
 
         [Fact]
