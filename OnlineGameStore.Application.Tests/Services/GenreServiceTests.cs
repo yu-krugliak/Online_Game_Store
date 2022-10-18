@@ -64,6 +64,7 @@ namespace OnlineGameStore.Application.Tests.Services
 
             // Assert
             await _genreRepository.Received(1).GetByIdAsync(id);
+
             result.Id.Should().Be(genreView.Id);
             result.Name.Should().Be(genreView.Name);
             result.Description.Should().Be(genreView.Description);

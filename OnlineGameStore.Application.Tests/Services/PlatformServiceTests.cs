@@ -43,6 +43,7 @@ namespace OnlineGameStore.Application.Tests.Services
 
             // Assert
             await _platformRepository.Received(1).GetAllAsync();
+
             result.Should().Equal(platformsViews, (resView, expView) => resView.Id == expView.Id);
             result.Should().Equal(platformsViews, (resView, expView) => resView.Type == expView.Type);
         }

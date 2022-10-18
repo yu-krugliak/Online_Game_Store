@@ -18,7 +18,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             _mapper = mapper;   
         }
 
-        public async Task<IEnumerable<CommentView>> GetByGame(int gameId)
+        public async Task<IEnumerable<CommentView>> GetByGameAsync(int gameId)
         {
             var comments = await _commentRepository.GetByGameId(gameId);
 
