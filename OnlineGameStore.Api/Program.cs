@@ -1,5 +1,4 @@
 using OnlineGameStore.Api.StartupExtensions;
-using OnlineGameStore.Infrastructure;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);

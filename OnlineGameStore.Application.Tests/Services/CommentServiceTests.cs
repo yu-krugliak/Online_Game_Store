@@ -1,9 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using MapsterMapper;
 using NSubstitute;
-using OnlineGameStore.Application.Exeptions;
-using OnlineGameStore.Application.Mapster;
+using OnlineGameStore.Application.Exceptions;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Implementation;
@@ -13,22 +11,15 @@ using Xunit;
 
 namespace OnlineGameStore.Application.Tests.Services
 {
-    public class CommentServiceTests
+    public sealed class CommentServiceTests : ServiceTestsBase
     {
         private readonly ICommentRepository _commentRepository;
         private readonly CommentService _sut;
-        private readonly IMapper _mapper;
-        private readonly Fixture _fixture = new();
 
         public CommentServiceTests()
         {
             _commentRepository = Substitute.For<ICommentRepository>();
-            _mapper = Substitute.For<IMapper>();
-            _mapper = new Mapper(MapsterConfiguration.GetConfiguration());
             _sut = new(_commentRepository, _mapper);
-
-            _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
-            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }
 
         [Fact]
@@ -38,7 +29,7 @@ namespace OnlineGameStore.Application.Tests.Services
             var gameId = _fixture.Create<int>();
 
             var comments = _fixture.CreateMany<Comment>(3).ToList();
-            var commentViews = _mapper.Map<IEnumerable<CommentView>>(comments).ToList();
+            var commentsViews = _mapper.Map<IEnumerable<CommentView>>(comments).ToList();
             _commentRepository.GetByGameId(Arg.Any<int>()).Returns(comments);
 
             // Act
@@ -46,16 +37,11 @@ namespace OnlineGameStore.Application.Tests.Services
 
             // Assert
             await _commentRepository.Received(1).GetByGameId(gameId);
-            result.Should().Equal(commentViews, (resView, expView) => resView.Id == expView.Id);
-            result.Should().Equal(commentViews, (resView, expView) => resView.Name == expView.Name);
-            result.Should().Equal(commentViews, (resView, expView) => resView.Body == expView.Body);
-            result.Should().Equal(commentViews, (resView, expView) => resView.DatePosted == expView.DatePosted);
-            result.Should().Equal(commentViews, (resView, expView) => resView.ParentCommentId == expView.ParentCommentId);
-            result.Should().Equal(commentViews, (resView, expView) => resView.GameId == expView.GameId);
+            result.Should().BeEquivalentTo(commentsViews);
         }
 
         [Fact]
-        public async Task GetByIdAsync_WhenExists_ShouldReturnCommentView()
+        public async Task GetByIdAsync_WhenCommentExists_ShouldReturnCommentView()
         {
             // Arrange
             var id = _fixture.Create<int>();
@@ -69,17 +55,11 @@ namespace OnlineGameStore.Application.Tests.Services
 
             // Assert
             await _commentRepository.Received(1).GetByIdAsync(id);
-
-            result.Id.Should().Be(commentView.Id);
-            result.Name.Should().Be(commentView.Name);
-            result.Body.Should().Be(commentView.Body);
-            result.DatePosted.Should().Be(commentView.DatePosted);
-            result.ParentCommentId.Should().Be(commentView.ParentCommentId);
-            result.GameId.Should().Be(commentView.GameId);
+            result.Should().BeEquivalentTo(commentView);
         }
 
         [Fact]
-        public async Task GetByIdAsync_WhenNotExists_ShouldThrowNotFound()
+        public async Task GetByIdAsync_WhenCommentNotExists_ShouldThrowNotFound()
         {
             // Arrange
             var id = _fixture.Create<int>();

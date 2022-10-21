@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace OnlineGameStore.Application.Exeptions
+namespace OnlineGameStore.Application.Exceptions
 {
     public class NotFoundException : CustomException
     {

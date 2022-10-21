@@ -1,35 +1,25 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using MapsterMapper;
 using NSubstitute;
-using OnlineGameStore.Application.Exeptions;
-using OnlineGameStore.Application.Mapster;
+using OnlineGameStore.Application.Exceptions;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Infrastructure.Entities;
-using OnlineGameStore.Infrastructure.Repositories.Implementations;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 using Xunit;
 
 namespace OnlineGameStore.Application.Tests.Services
 {
-    public class PlatformServiceTests
+    public sealed class PlatformServiceTests : ServiceTestsBase
     {
         private readonly IPlatformRepository _platformRepository;
         private readonly PlatformService _sut;
-        private readonly IMapper _mapper;
-        private readonly Fixture _fixture = new();
 
         public PlatformServiceTests()
         {
             _platformRepository = Substitute.For<IPlatformRepository>();
-            _mapper = Substitute.For<IMapper>();
-            _mapper = new Mapper(MapsterConfiguration.GetConfiguration());
             _sut = new(_platformRepository, _mapper);
-
-            _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
-            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }
 
         [Fact]
@@ -45,13 +35,11 @@ namespace OnlineGameStore.Application.Tests.Services
 
             // Assert
             await _platformRepository.Received(1).GetAllAsync();
-
-            result.Should().Equal(platformsViews, (resView, expView) => resView.Id == expView.Id);
-            result.Should().Equal(platformsViews, (resView, expView) => resView.Type == expView.Type);
+            result.Should().BeEquivalentTo(platformsViews);
         }
 
         [Fact]
-        public async Task GetByIdAsync_WhenExists_ShouldReturnPlatformView()
+        public async Task GetByIdAsync_WhenPlatformExists_ShouldReturnPlatformView()
         {
             // Arrange
             var id = _fixture.Create<int>();
@@ -65,12 +53,11 @@ namespace OnlineGameStore.Application.Tests.Services
 
             // Assert
             await _platformRepository.Received(1).GetByIdAsync(id);
-            result.Id.Should().Be(platformView.Id);
-            result.Type.Should().Be(platformView.Type);
+            result.Should().BeEquivalentTo(platformView);
         }
 
         [Fact]
-        public async Task GetByIdAsync_WhenNotExists_ShouldThrowNotFound()
+        public async Task GetByIdAsync_WhenPlatformNotExists_ShouldThrowNotFound()
         {
             // Arrange
             var id = _fixture.Create<int>();

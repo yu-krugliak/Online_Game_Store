@@ -1,9 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using MapsterMapper;
 using NSubstitute;
-using OnlineGameStore.Application.Exeptions;
-using OnlineGameStore.Application.Mapster;
+using OnlineGameStore.Application.Exceptions;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Implementation;
@@ -13,22 +11,15 @@ using Xunit;
 
 namespace OnlineGameStore.Application.Tests.Services
 {
-    public class GenreServiceTests
+    public sealed class GenreServiceTests : ServiceTestsBase
     {
         private readonly IGenreRepository _genreRepository;
         private readonly GenreService _sut;
-        private readonly IMapper _mapper;
-        private readonly Fixture _fixture = new();
 
         public GenreServiceTests()
         {
             _genreRepository = Substitute.For<IGenreRepository>();
-            _mapper = Substitute.For<IMapper>();
-            _mapper = new Mapper(MapsterConfiguration.GetConfiguration());
             _sut = new(_genreRepository, _mapper);
-
-            _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
-            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }
 
         [Fact]
@@ -44,14 +35,11 @@ namespace OnlineGameStore.Application.Tests.Services
 
             // Assert
             await _genreRepository.Received(1).GetAllAsync();
-            result.Should().Equal(genresViews, (resView, expView) => resView.Id == expView.Id);
-            result.Should().Equal(genresViews, (resView, expView) => resView.Name == expView.Name);
-            result.Should().Equal(genresViews, (resView, expView) => resView.Description == expView.Description);
-            result.Should().Equal(genresViews, (resView, expView) => resView.ParentGenreId == expView.ParentGenreId);
+            result.Should().BeEquivalentTo(genresViews);
         }
 
         [Fact]
-        public async Task GetByIdAsync_WhenExists_ShouldReturnGenreView()
+        public async Task GetByIdAsync_WhenGenreExists_ShouldReturnGenreView()
         {
             // Arrange
             var id = _fixture.Create<int>();
@@ -65,15 +53,11 @@ namespace OnlineGameStore.Application.Tests.Services
 
             // Assert
             await _genreRepository.Received(1).GetByIdAsync(id);
-
-            result.Id.Should().Be(genreView.Id);
-            result.Name.Should().Be(genreView.Name);
-            result.Description.Should().Be(genreView.Description);
-            result.ParentGenreId.Should().Be(genreView.ParentGenreId);
+            result.Should().BeEquivalentTo(genreView);
         }
 
         [Fact]
-        public async Task GetByIdAsync_WhenNotExists_ShouldThrowNotFound()
+        public async Task GetByIdAsync_WhenGenreNotExists_ShouldThrowNotFound()
         {
             // Arrange
             var id = _fixture.Create<int>();

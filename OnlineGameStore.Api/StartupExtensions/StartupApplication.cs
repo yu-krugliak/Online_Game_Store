@@ -1,5 +1,5 @@
 ﻿using MapsterMapper;
-using OnlineGameStore.Api.Configurations;
+using OnlineGameStore.Application.Configurations;
 using OnlineGameStore.Application.Mapster;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;

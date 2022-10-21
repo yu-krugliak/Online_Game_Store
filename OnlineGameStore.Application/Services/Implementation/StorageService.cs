@@ -3,7 +3,7 @@ using CloudinaryDotNet;
 using Microsoft.AspNetCore.Http;
 using OnlineGameStore.Application.Services.Interfaces;
 using Microsoft.Extensions.Options;
-using OnlineGameStore.Api.Configurations;
+using OnlineGameStore.Application.Configurations;
 using OnlineGameStore.Application.Services.Constants;
 
 namespace OnlineGameStore.Application.Services.Implementation
