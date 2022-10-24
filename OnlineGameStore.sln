@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineGameStore.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineGameStore.Infrastructure", "OnlineGameStore.Infrastructure\OnlineGameStore.Infrastructure.csproj", "{212D92A3-DFDD-42B5-805F-45E35D31DB88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineGameStore.Application.Tests", "OnlineGameStore.Application.Tests\OnlineGameStore.Application.Tests.csproj", "{F9BC892A-7FBB-4623-8D66-0977489D1938}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineGameStore.Application.Tests", "OnlineGameStore.Application.Tests\OnlineGameStore.Application.Tests.csproj", "{F9BC892A-7FBB-4623-8D66-0977489D1938}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineGameStore.Api.IntegrationTests", "OnlineGameStore.Api.IntegrationTests\OnlineGameStore.Api.IntegrationTests.csproj", "{39E8E21E-DC1F-4062-A2CC-81045094FA60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F9BC892A-7FBB-4623-8D66-0977489D1938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9BC892A-7FBB-4623-8D66-0977489D1938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9BC892A-7FBB-4623-8D66-0977489D1938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39E8E21E-DC1F-4062-A2CC-81045094FA60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39E8E21E-DC1F-4062-A2CC-81045094FA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39E8E21E-DC1F-4062-A2CC-81045094FA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39E8E21E-DC1F-4062-A2CC-81045094FA60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
