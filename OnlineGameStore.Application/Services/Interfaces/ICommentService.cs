@@ -6,7 +6,7 @@ namespace OnlineGameStore.Application.Services.Interfaces
 {
     public interface ICommentService : IService<Comment>
     {
-        Task<IEnumerable<CommentView>> GetByGame(int gameId);
+        Task<IEnumerable<CommentView>> GetByGameAsync(int gameId);
 
         Task<CommentView> GetByIdAsync(int commentId);
 

@@ -1,6 +1,6 @@
 ﻿using MapsterMapper;
 using Microsoft.AspNetCore.Http;
-using OnlineGameStore.Application.Exeptions;
+using OnlineGameStore.Application.Exceptions;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Constants;

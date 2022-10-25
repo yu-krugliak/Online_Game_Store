@@ -1,6 +1,6 @@
 ﻿using CloudinaryDotNet;
 
-namespace OnlineGameStore.Api.Configurations
+namespace OnlineGameStore.Application.Configurations
 {
     public class CloudinaryAccountOptions : Account
     {

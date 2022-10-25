@@ -1,4 +1,4 @@
-﻿using OnlineGameStore.Application.Exeptions;
+﻿using OnlineGameStore.Application.Exceptions;
 using OnlineGameStore.Application.Services.Interfaces;
 using OnlineGameStore.Infrastructure.Entities;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;

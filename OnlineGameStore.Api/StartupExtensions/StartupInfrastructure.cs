@@ -1,10 +1,10 @@
-﻿using OnlineGameStore.Infrastructure.Repositories.Interfaces;
-using OnlineGameStore.Infrastructure.Context;
-using Microsoft.EntityFrameworkCore;
-using OnlineGameStore.Infrastructure.Repositories.Implementations;
+﻿using Microsoft.EntityFrameworkCore;
 using OnlineGameStore.Api.Configurations;
+using OnlineGameStore.Infrastructure.Context;
+using OnlineGameStore.Infrastructure.Repositories.Implementations;
+using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
-namespace OnlineGameStore.Infrastructure
+namespace OnlineGameStore.Api.StartupExtensions
 {
     public static class StartupInfrastructure
     {
