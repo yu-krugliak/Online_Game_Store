@@ -1,4 +1,6 @@
-﻿namespace OnlineGameStore.Infrastructure.Entities
+﻿using OnlineGameStore.Infrastructure.Identity;
+
+namespace OnlineGameStore.Infrastructure.Entities
 {
     public class Comment : IEntity<int>
     {
@@ -10,6 +12,9 @@
 
         public string? Body { get; set; }
 
+
+        public Guid? UserIdCreated { get; set; }
+        public virtual User? User { get; set; }
 
         public int? ParentCommentId { get; set; }
         public virtual Comment? ParentComment { get; set; }

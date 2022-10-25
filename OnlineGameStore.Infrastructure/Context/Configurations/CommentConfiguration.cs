@@ -18,6 +18,10 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
 
             builder.Property(comment => comment.DatePosted);
 
+            builder.HasOne(comment => comment.User)
+                .WithMany(user => user.Comments)
+                .HasForeignKey(post => post.UserIdCreated);
+
             builder.HasOne(comment => comment.ParentComment)
                 .WithMany(parent => parent.CommentReplies)
                 .HasForeignKey(comment => comment.ParentCommentId)
