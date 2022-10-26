@@ -19,11 +19,11 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             migrationBuilder.RenameTable(
                 name: "User",
-                newName: "AspNetUsers");
+                newName: "Users");
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserName",
-                table: "AspNetUsers",
+                table: "Users",
                 type: "nvarchar(256)",
                 maxLength: 256,
                 nullable: true,
@@ -33,7 +33,7 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "NormalizedUserName",
-                table: "AspNetUsers",
+                table: "Users",
                 type: "nvarchar(256)",
                 maxLength: 256,
                 nullable: true,
@@ -43,7 +43,7 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "NormalizedEmail",
-                table: "AspNetUsers",
+                table: "Users",
                 type: "nvarchar(256)",
                 maxLength: 256,
                 nullable: true,
@@ -53,7 +53,7 @@ namespace OnlineGameStore.Infrastructure.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Email",
-                table: "AspNetUsers",
+                table: "Users",
                 type: "nvarchar(256)",
                 maxLength: 256,
                 nullable: true,
@@ -62,8 +62,8 @@ namespace OnlineGameStore.Infrastructure.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_AspNetUsers",
-                table: "AspNetUsers",
+                name: "PK_Users",
+                table: "Users",
                 column: "Id");
 
             migrationBuilder.CreateTable(
@@ -80,9 +80,9 @@ namespace OnlineGameStore.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        name: "FK_AspNetUserClaims_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -100,9 +100,9 @@ namespace OnlineGameStore.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        name: "FK_AspNetUserLogins_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -120,24 +120,11 @@ namespace OnlineGameStore.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        name: "FK_AspNetUserTokens_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Permission",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permission", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,51 +174,27 @@ namespace OnlineGameStore.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_AspNetUserRoles_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RolePermission",
-                columns: table => new
-                {
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RolePermission", x => new { x.RoleId, x.PermissionId });
                     table.ForeignKey(
-                        name: "FK_RolePermission_Permission_PermissionId",
-                        column: x => x.PermissionId,
-                        principalTable: "Permission",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RolePermission_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
+                        name: "FK_AspNetUserRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "AspNetUsers",
+                table: "Users",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "AspNetUsers",
+                table: "Users",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
@@ -257,11 +220,6 @@ namespace OnlineGameStore.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePermission_PermissionId",
-                table: "RolePermission",
-                column: "PermissionId");
-
-            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "Roles",
                 column: "NormalizedName",
@@ -269,10 +227,10 @@ namespace OnlineGameStore.Infrastructure.Migrations
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Comments_AspNetUsers_UserIdCreated",
+                name: "FK_Comments_Users_UserIdCreated",
                 table: "Comments",
                 column: "UserIdCreated",
-                principalTable: "AspNetUsers",
+                principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.SetNull);
         }
@@ -280,7 +238,7 @@ namespace OnlineGameStore.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Comments_AspNetUsers_UserIdCreated",
+                name: "FK_Comments_Users_UserIdCreated",
                 table: "Comments");
 
             migrationBuilder.DropTable(
@@ -299,28 +257,22 @@ namespace OnlineGameStore.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "RolePermission");
-
-            migrationBuilder.DropTable(
-                name: "Permission");
-
-            migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_AspNetUsers",
-                table: "AspNetUsers");
+                name: "PK_Users",
+                table: "Users");
 
             migrationBuilder.DropIndex(
                 name: "EmailIndex",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropIndex(
                 name: "UserNameIndex",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.RenameTable(
-                name: "AspNetUsers",
+                name: "Users",
                 newName: "User");
 
             migrationBuilder.AlterColumn<string>(

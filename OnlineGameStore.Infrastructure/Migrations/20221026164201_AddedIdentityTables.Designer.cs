@@ -12,7 +12,7 @@ using OnlineGameStore.Infrastructure.Context;
 namespace OnlineGameStore.Infrastructure.Migrations
 {
     [DbContext(typeof(GamesContext))]
-    [Migration("20221025232926_AddedIdentityTables")]
+    [Migration("20221026164201_AddedIdentityTables")]
     partial class AddedIdentityTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -280,23 +280,6 @@ namespace OnlineGameStore.Infrastructure.Migrations
                     b.ToTable("PlatformTypes");
                 });
 
-            modelBuilder.Entity("OnlineGameStore.Infrastructure.Identity.Permission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Permission");
-                });
-
             modelBuilder.Entity("OnlineGameStore.Infrastructure.Identity.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -326,21 +309,6 @@ namespace OnlineGameStore.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
-                });
-
-            modelBuilder.Entity("OnlineGameStore.Infrastructure.Identity.RolePermission", b =>
-                {
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PermissionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("RoleId", "PermissionId");
-
-                    b.HasIndex("PermissionId");
-
-                    b.ToTable("RolePermission");
                 });
 
             modelBuilder.Entity("OnlineGameStore.Infrastructure.Identity.User", b =>
@@ -418,7 +386,7 @@ namespace OnlineGameStore.Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("GameGenre", b =>
@@ -536,25 +504,6 @@ namespace OnlineGameStore.Infrastructure.Migrations
                     b.Navigation("ParentGenre");
                 });
 
-            modelBuilder.Entity("OnlineGameStore.Infrastructure.Identity.RolePermission", b =>
-                {
-                    b.HasOne("OnlineGameStore.Infrastructure.Identity.Permission", "Permission")
-                        .WithMany("RolePermissions")
-                        .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineGameStore.Infrastructure.Identity.Role", "Role")
-                        .WithMany("RolePermissions")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Permission");
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("OnlineGameStore.Infrastructure.Entities.Comment", b =>
                 {
                     b.Navigation("CommentReplies");
@@ -568,16 +517,6 @@ namespace OnlineGameStore.Infrastructure.Migrations
             modelBuilder.Entity("OnlineGameStore.Infrastructure.Entities.Genre", b =>
                 {
                     b.Navigation("NestedGenres");
-                });
-
-            modelBuilder.Entity("OnlineGameStore.Infrastructure.Identity.Permission", b =>
-                {
-                    b.Navigation("RolePermissions");
-                });
-
-            modelBuilder.Entity("OnlineGameStore.Infrastructure.Identity.Role", b =>
-                {
-                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("OnlineGameStore.Infrastructure.Identity.User", b =>
