@@ -25,7 +25,8 @@ namespace OnlineGameStore.Api.StartupExtensions
                 .AddTransient<IGameService, GameService>()
                 .AddTransient<ICommentService, CommentService>()
                 .AddTransient<IGenreService, GenreService>()
-                .AddTransient<IPlatformService, PlatformService>();
+                .AddTransient<IPlatformService, PlatformService>()
+                .AddTransient<ITokenService, TokenService>();
         }
 
         public static IServiceCollection AddMapster(this IServiceCollection services)

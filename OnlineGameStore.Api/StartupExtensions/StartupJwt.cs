@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using OnlineGameStore.Application.Auth.JwtTokenServices;
 
 namespace OnlineGameStore.Api.StartupExtensions;
 
 public static class StartupJwt
 {
-    /*public static IServiceCollection AddJwtAuth(this IServiceCollection services)
+    public static IServiceCollection AddJwtAuth(this IServiceCollection services)
     {
         services.AddOptions<JwtSettings>()
             .BindConfiguration(nameof(JwtSettings))
@@ -22,5 +23,5 @@ public static class StartupJwt
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, null)
             .Services;
-    }*/
+    }
 }
