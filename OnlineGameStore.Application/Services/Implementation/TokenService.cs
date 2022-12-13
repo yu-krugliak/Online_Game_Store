@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.Text;
 using OnlineGameStore.Application.Exceptions;
 using System.Security.Cryptography;
+using OnlineGameStore.Application.Auth;
+using OnlineGameStore.Infrastructure.Entities;
 
 namespace OnlineGameStore.Application.Services.Implementation;
 
@@ -18,11 +20,13 @@ public class TokenService : ITokenService
 {
     private readonly UserManager<User> _userManager;
     private readonly JwtSettings _jwtSettings;
+    private readonly ICurrentUser _currentUser;
 
-    public TokenService(UserManager<User> userManager, IOptions<JwtSettings> jwtOptions)
+    public TokenService(UserManager<User> userManager, IOptions<JwtSettings> jwtOptions, ICurrentUser currentUser)
     {
         _userManager = userManager;
         _jwtSettings = jwtOptions.Value;
+        _currentUser = currentUser;
     }
 
     public async Task<TokenView> GetTokenAsync(TokenRequest request, CancellationToken cancellationToken)
@@ -55,10 +59,11 @@ public class TokenService : ITokenService
         return await GenerateTokenResponse(user);
     }
 
-    public async Task<bool> RevokeTokenAsync(string userId)
+    public async Task<bool> RevokeTokenAsync()
     {
+        var userId = Guid.Parse(_currentUser.GetUserId()).ToString();
         var user = await _userManager.FindByIdAsync(userId);
-
+        
         if (user is null)
         {
             throw new NotFoundException("This user doesn't exist.");

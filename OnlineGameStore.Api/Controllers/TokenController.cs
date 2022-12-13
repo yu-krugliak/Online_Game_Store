@@ -38,8 +38,7 @@ namespace OnlineGameStore.Api.Controllers
         [Route("revoke")]
         public async Task<IActionResult> Revoke()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return Ok(await _tokenService.RevokeTokenAsync(userId));
+            return Ok(await _tokenService.RevokeTokenAsync());
         }
     }
 }

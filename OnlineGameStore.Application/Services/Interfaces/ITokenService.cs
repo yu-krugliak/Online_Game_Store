@@ -9,5 +9,5 @@ public interface ITokenService
 
     Task<TokenView> RefreshToken(RefreshTokenRequest refreshTokenRequest, CancellationToken cancellationToken);
 
-    Task<bool> RevokeTokenAsync(string userId);
+    Task<bool> RevokeTokenAsync();
 }

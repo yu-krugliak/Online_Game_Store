@@ -1,4 +1,5 @@
 ﻿using MapsterMapper;
+using OnlineGameStore.Application.Auth;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Interfaces;
@@ -9,13 +10,15 @@ namespace OnlineGameStore.Application.Services.Implementation
 {
     public class CommentService : ServiceBase<Comment>, ICommentService
     {
-        private ICommentRepository _commentRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
+        private readonly ICurrentUser _currentUser;
 
-        public CommentService(ICommentRepository commentRepository, IMapper mapper) : base(commentRepository)
+        public CommentService(ICommentRepository commentRepository, IMapper mapper, ICurrentUser currentUser) : base(commentRepository)
         {
             _commentRepository = commentRepository;
             _mapper = mapper;   
+            _currentUser = currentUser;
         }
 
         public async Task<IEnumerable<CommentView>> GetByGameAsync(int gameId)
@@ -37,8 +40,8 @@ namespace OnlineGameStore.Application.Services.Implementation
         public async Task<CommentView> AddAsync(CommentRequest commentRequest)
         {
             var comment = _mapper.Map<Comment>(commentRequest);
-
             comment.DatePosted = DateTime.UtcNow;
+            comment.UserIdCreated = Guid.Parse(_currentUser.GetUserId());
 
             var addedComment = await _commentRepository.AddAsync(comment);
 

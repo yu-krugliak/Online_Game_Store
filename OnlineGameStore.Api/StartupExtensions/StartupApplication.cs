@@ -1,7 +1,9 @@
-﻿using MapsterMapper;
+﻿using FluentValidation;
+using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using OnlineGameStore.Application.Configurations;
 using OnlineGameStore.Application.Mapster;
+using OnlineGameStore.Application.Models.Validators;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
 using OnlineGameStore.Infrastructure.Context;
@@ -19,9 +21,19 @@ namespace OnlineGameStore.Api.StartupExtensions
                     .AddServices()
                     .AddMapster()
                     .AddIdentity()
-                    .AddJwtAuth();
+                    .AddJwtAuth()
+                    .AddCurrentUser()
+                    .AddValidation();
 
             return builder;
+        }
+
+        public static IApplicationBuilder UseApplication(this IApplicationBuilder builder)
+        {
+            return builder
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseCurrentUser();
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
@@ -56,6 +68,13 @@ namespace OnlineGameStore.Api.StartupExtensions
             return services
                 .AddMapsterConfiguration()
                 .AddTransient<IMapper, Mapper>();
+        }
+
+        public static IServiceCollection AddValidation(this IServiceCollection services)
+        {
+            return services
+                .AddValidatorsFromAssemblyContaining<RegisterRequestValidator>()
+                .AddValidatorsFromAssemblyContaining<CommentRequestValidator>();
         }
 
         public static WebApplicationBuilder AddCloudinary(this WebApplicationBuilder builder)
