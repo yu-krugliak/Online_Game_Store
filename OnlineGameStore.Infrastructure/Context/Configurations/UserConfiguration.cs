@@ -12,15 +12,21 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasKey(user => user.Id);
 
-        builder.Property(user => user.FirstName);
-        builder.Property(user => user.LastName);
-        builder.Property(user => user.UserName);
-        builder.Property(user => user.PasswordHash);
+        builder.Property(user => user.FirstName)
+            .IsRequired(true).HasMaxLength(100);
 
-        builder.Property(user => user.Email);
-        builder.Property(user => user.PhoneNumber);
+        builder.Property(user => user.LastName)
+            .IsRequired(true).HasMaxLength(100);
+
         builder.Property(user => user.RegistrationDate);
-        builder.Property(user => user.AvatarUrl);
+
+        builder.Property(user => user.AvatarUrl)
+            .HasMaxLength(2083);
+        
+        builder.Property(user => user.RefreshToken)
+            .IsRequired(false);
+
+        builder.Property(user => user.RefreshTokenExpiryTime);
 
         builder.HasMany(user => user.Comments)
             .WithOne(comment => comment.User)
