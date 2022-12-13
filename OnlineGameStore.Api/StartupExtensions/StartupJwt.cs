@@ -20,6 +20,7 @@ public static class StartupJwt
             {
                 auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, null)
             .Services;

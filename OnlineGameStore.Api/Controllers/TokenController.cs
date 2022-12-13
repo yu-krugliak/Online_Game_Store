@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Interfaces;
+using System.Security.Claims;
 
 namespace OnlineGameStore.Api.Controllers
 {
@@ -23,6 +24,22 @@ namespace OnlineGameStore.Api.Controllers
         public async Task<IActionResult> Get([FromBody] TokenRequest request, CancellationToken cancellationToken)
         {
             return Ok(await _tokenService.GetTokenAsync(request, cancellationToken));
+        }
+
+        [HttpPost]
+        [Route("refresh")]
+        public async Task<IActionResult> Refresh(RefreshTokenRequest refreshTokenRequest, CancellationToken cancellationToken)
+        {
+            return Ok(await _tokenService.RefreshToken(refreshTokenRequest, cancellationToken));
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("revoke")]
+        public async Task<IActionResult> Revoke()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return Ok(await _tokenService.RevokeTokenAsync(userId));
         }
     }
 }

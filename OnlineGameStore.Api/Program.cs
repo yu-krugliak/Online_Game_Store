@@ -2,9 +2,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using OnlineGameStore.Api.StartupExtensions;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Identity;
-using OnlineGameStore.Infrastructure.Context;
-using OnlineGameStore.Infrastructure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,22 +35,7 @@ builder
     .AddPersistence()
     .AddApplication();
 
-builder.Services.AddIdentity<User, Role>(options =>
-    {
-        options.Password.RequiredLength = 6;
-        options.Password.RequireDigit = false;
-        options.Password.RequireLowercase = false;
-        options.Password.RequireUppercase = false;
-        options.Password.RequireNonAlphanumeric = false;
-        options.User.RequireUniqueEmail = true;
-    })
-    .AddEntityFrameworkStores<GamesContext>()
-    .AddDefaultTokenProviders();
-
-builder.Services.AddJwtAuth();
-
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -63,6 +45,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

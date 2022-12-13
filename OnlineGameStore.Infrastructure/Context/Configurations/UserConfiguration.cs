@@ -20,7 +20,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(user => user.Email);
         builder.Property(user => user.PhoneNumber);
         builder.Property(user => user.RegistrationDate);
-        builder.Property(user => user.Avatar);
+        builder.Property(user => user.AvatarUrl);
 
         builder.HasMany(user => user.Comments)
             .WithOne(comment => comment.User)

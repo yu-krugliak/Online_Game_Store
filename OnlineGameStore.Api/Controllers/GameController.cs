@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Services.Interfaces;
@@ -16,6 +17,7 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllGames()
         {
             return Ok(await _gameService.GetAllAsync());

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Infrastructure.Entities;
+using OnlineGameStore.Infrastructure.Identity;
 
 namespace OnlineGameStore.Application.Mapster
 {
@@ -36,6 +37,9 @@ namespace OnlineGameStore.Application.Mapster
                 .IgnoreNullValues(false);
 
             config.ForType<PlatformRequest, PlatformType>()
+                .IgnoreNullValues(true);
+
+            config.ForType<User, UserView>()
                 .IgnoreNullValues(true);
 
             return config;

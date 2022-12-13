@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineGameStore.Infrastructure.Entities;
 using OnlineGameStore.Infrastructure.Identity;

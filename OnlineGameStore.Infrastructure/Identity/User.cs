@@ -11,7 +11,11 @@ public class User : IdentityUser<Guid>, IEntity<Guid>
 
     public DateTime RegistrationDate { get; set; }
 
-    public string? Avatar { get; set; }
+    public string? AvatarUrl { get; set; }
+
+    public string? RefreshToken { get; set; }
+
+    public DateTime RefreshTokenExpiryTime { get; set; }
 
 
     public virtual ICollection<Comment>? Comments { get; set; }

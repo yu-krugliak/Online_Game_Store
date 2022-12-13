@@ -42,6 +42,7 @@ public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions
             RoleClaimType = ClaimTypes.Role,
             ClockSkew = TimeSpan.Zero
         };
+
         options.Events = new JwtBearerEvents()
         {
             OnChallenge = context =>
@@ -54,8 +55,7 @@ public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions
 
                 return Task.CompletedTask;
             },
-            OnForbidden = _ => throw new CustomException("Not authorized to access", null, HttpStatusCode.Forbidden)
+            OnForbidden = _ => throw new ForbiddenException("Not authorized to access")
         };
-
     }
 }

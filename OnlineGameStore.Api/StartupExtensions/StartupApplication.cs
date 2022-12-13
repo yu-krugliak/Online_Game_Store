@@ -1,8 +1,11 @@
 ﻿using MapsterMapper;
+using Microsoft.AspNetCore.Identity;
 using OnlineGameStore.Application.Configurations;
 using OnlineGameStore.Application.Mapster;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
+using OnlineGameStore.Infrastructure.Context;
+using OnlineGameStore.Infrastructure.Identity;
 
 namespace OnlineGameStore.Api.StartupExtensions
 {
@@ -14,7 +17,9 @@ namespace OnlineGameStore.Api.StartupExtensions
                 .AddCloudinary()
                 .Services
                     .AddServices()
-                    .AddMapster();
+                    .AddMapster()
+                    .AddIdentity()
+                    .AddJwtAuth();
 
             return builder;
         }
@@ -26,7 +31,24 @@ namespace OnlineGameStore.Api.StartupExtensions
                 .AddTransient<ICommentService, CommentService>()
                 .AddTransient<IGenreService, GenreService>()
                 .AddTransient<IPlatformService, PlatformService>()
-                .AddTransient<ITokenService, TokenService>();
+                .AddTransient<ITokenService, TokenService>()
+                .AddTransient<IUserService, UserService>();
+        }
+
+        public static IServiceCollection AddIdentity(this IServiceCollection services)
+        {
+            return services.AddIdentity<User, Role>(options =>
+                {
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<GamesContext>()
+                .AddDefaultTokenProviders()
+                .Services;
         }
 
         public static IServiceCollection AddMapster(this IServiceCollection services)
