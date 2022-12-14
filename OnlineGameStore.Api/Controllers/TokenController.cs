@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Interfaces;
-using System.Security.Claims;
 
 namespace OnlineGameStore.Api.Controllers
 {

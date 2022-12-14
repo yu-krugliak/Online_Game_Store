@@ -12,7 +12,6 @@ using System.Text;
 using OnlineGameStore.Application.Exceptions;
 using System.Security.Cryptography;
 using OnlineGameStore.Application.Auth;
-using OnlineGameStore.Infrastructure.Entities;
 
 namespace OnlineGameStore.Application.Services.Implementation;
 

@@ -4,25 +4,25 @@ using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Application.Models.Validators
 {
-    public class CommentRequestValidator : CustomValidator<CommentRequest>
+    public class GenreRequestValidator : CustomValidator<GenreRequest>
     {
-        public CommentRequestValidator()
+        public GenreRequestValidator()
         {
             RuleFor(r => r.Name)
                 .NotEmpty()
                 .WithMessage("Name can't be empty.")
                 .MinimumLength(2)
                 .WithMessage("Name must have at least 2 characters.")
-                .MaximumLength(100)
-                .WithMessage("Name can't be longer than 100 characters.");
+                .MaximumLength(60)
+                .WithMessage("Name can't be longer than 60 characters.");
 
-            RuleFor(r => r.Body)
+            RuleFor(r => r.Description)
                 .NotEmpty()
-                .WithMessage("Body can't be empty.")
-                .MinimumLength(2)
-                .WithMessage("Body must have at least 2 characters.")
+                .WithMessage("Description can't be empty.")
+                .MinimumLength(10)
+                .WithMessage("Description must have at least 10 characters.")
                 .MaximumLength(500)
-                .WithMessage("Body can't be longer than 500 characters.");
+                .WithMessage("Description can't be longer than 500 characters.");
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using MapsterMapper;
 using OnlineGameStore.Application.Auth;
+using OnlineGameStore.Application.Exceptions;
+using OnlineGameStore.Application.Extensions;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Interfaces;
 using OnlineGameStore.Infrastructure.Entities;
+using OnlineGameStore.Infrastructure.Repositories.Implementations;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Application.Services.Implementation
@@ -39,6 +42,11 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task<CommentView> AddAsync(CommentRequest commentRequest)
         {
+            if (commentRequest.ParentCommentId.TryGetValue(out var parrentCommentId)) 
+            {
+                await ThrowIfCommentNotExists(parrentCommentId);
+            }
+
             var comment = _mapper.Map<Comment>(commentRequest);
             comment.DatePosted = DateTime.UtcNow;
             comment.UserIdCreated = Guid.Parse(_currentUser.GetUserId());
@@ -46,6 +54,15 @@ namespace OnlineGameStore.Application.Services.Implementation
             var addedComment = await _commentRepository.AddAsync(comment);
 
             return _mapper.Map<CommentView>(addedComment);
+        }
+
+        private async Task ThrowIfCommentNotExists(int parrentId)
+        {
+            var isParrentExists = await _commentRepository.ExistsAsync(parrentId);
+            if (!isParrentExists)
+            {
+                throw new NotFoundException($"Parrent {typeof(Comment).Name} with such id doesn't exist.");
+            }
         }
     }
 }
