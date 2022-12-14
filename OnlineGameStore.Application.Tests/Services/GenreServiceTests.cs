@@ -79,6 +79,7 @@ namespace OnlineGameStore.Application.Tests.Services
         {
             // Arrange
             var genreRequest = _fixture.Create<GenreRequest>();
+            genreRequest.ParentGenreId = null;
             var genre = _mapper.Map<Genre>(genreRequest);
             var genreView = _mapper.Map<GenreView>(genre);
 

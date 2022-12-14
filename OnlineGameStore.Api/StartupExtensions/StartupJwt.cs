@@ -22,7 +22,7 @@ public static class StartupJwt
                 auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 auth.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, null)
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme)
             .Services;
     }
 }

@@ -25,7 +25,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             var result = await _cloudinary.UploadAsync(new ImageUploadParams
             {
                 File = new FileDescription(image.FileName, image.OpenReadStream()),
-                Folder = Path.Combine(FolderNamesConstants.Root, folder)
+                Folder = Path.Combine(FolderNamesConstants.Root, folder).Replace("\\", "/")
             }).ConfigureAwait(false);
 
             return result.Url.OriginalString;

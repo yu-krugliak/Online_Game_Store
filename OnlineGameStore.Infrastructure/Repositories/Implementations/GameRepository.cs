@@ -14,7 +14,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             _gamesContext = gamesContext;
         }
 
-        public async Task<Game?> GetGameByIdWithDetails(int gameId)
+        public async Task<Game?> GetGameByIdWithDetailsAsync(int gameId)
         {
             return await _gamesContext.Games
                 .Where(game => game.Id == gameId)
@@ -24,7 +24,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Game?> GetGameByKeyWithDetails(string gameKey)
+        public async Task<Game?> GetGameByKeyWithDetailsAsync(string gameKey)
         {
             return await _gamesContext.Games
                 .Where(game => game.Key == gameKey)
@@ -55,7 +55,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             return await filtered.ToListAsync();
         }
 
-        public async Task<IEnumerable<Game>> GetGamesWithDetails()
+        public async Task<IEnumerable<Game>> GetGamesWithDetailsAsync()
         {
             return await _gamesContext.Games
                 .Include(game => game.Genres)
@@ -64,7 +64,16 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .ToListAsync();
         }
 
-        public async Task<bool> RemoveGenresFromGame(Game game)
+        public bool UpdateGameImage(Game game)
+        {
+            _gamesContext.Games
+                .Where(g => g.Id == game.Id)
+                .ExecuteUpdate(g => g.SetProperty(u => u.ImageUrl, game.ImageUrl));
+
+            return true;
+        }
+
+        public async Task<bool> RemoveGenresFromGameAsync(Game game)
         {
             game.Genres.Clear();
             await _gamesContext.SaveChangesAsync();
@@ -72,7 +81,7 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
             return true;
         }
 
-        public async Task<bool> RemovePlatformsFromGame(Game game)
+        public async Task<bool> RemovePlatformsFromGameAsync(Game game)
         {
             game.Platforms.Clear();
             await _gamesContext.SaveChangesAsync();

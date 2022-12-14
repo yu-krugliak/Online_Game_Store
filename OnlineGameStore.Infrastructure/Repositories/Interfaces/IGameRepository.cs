@@ -4,16 +4,18 @@ namespace OnlineGameStore.Infrastructure.Repositories.Interfaces
 {
     public interface IGameRepository : IRepository<Game>
     {
-        Task<IEnumerable<Game>> GetGamesWithDetails();
+        Task<IEnumerable<Game>> GetGamesWithDetailsAsync();
 
-        Task<Game?> GetGameByIdWithDetails(int gameId);
+        Task<Game?> GetGameByIdWithDetailsAsync(int gameId);
 
-        Task<Game?> GetGameByKeyWithDetails(string gameKey);
+        Task<Game?> GetGameByKeyWithDetailsAsync(string gameKey);
 
         Task<IEnumerable<Game>> FilterGamesByGenresAndNameAsync(List<int> genresIds, string? name);
 
-        Task<bool> RemoveGenresFromGame(Game game);
+        bool UpdateGameImage(Game game);
 
-        Task<bool> RemovePlatformsFromGame(Game game);
+        Task<bool> RemoveGenresFromGameAsync(Game game);
+
+        Task<bool> RemovePlatformsFromGameAsync(Game game);
     }
 }

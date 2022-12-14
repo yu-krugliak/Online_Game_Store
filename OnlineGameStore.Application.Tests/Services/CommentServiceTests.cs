@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using NSubstitute;
+using OnlineGameStore.Application.Auth;
 using OnlineGameStore.Application.Exceptions;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
@@ -14,12 +15,14 @@ namespace OnlineGameStore.Application.Tests.Services
     public sealed class CommentServiceTests : ServiceTestsBase
     {
         private readonly ICommentRepository _commentRepository;
+        private readonly ICurrentUser _currentUser;
         private readonly CommentService _sut;
 
         public CommentServiceTests()
         {
             _commentRepository = Substitute.For<ICommentRepository>();
-            _sut = new(_commentRepository, _mapper);
+            _currentUser = Substitute.For<ICurrentUser>();
+            _sut = new(_commentRepository, _mapper, _currentUser);
         }
 
         [Fact]
@@ -30,13 +33,13 @@ namespace OnlineGameStore.Application.Tests.Services
 
             var comments = _fixture.CreateMany<Comment>(3).ToList();
             var commentsViews = _mapper.Map<IEnumerable<CommentView>>(comments).ToList();
-            _commentRepository.GetByGameId(Arg.Any<int>()).Returns(comments);
+            _commentRepository.GetByGameIdAsync(Arg.Any<int>()).Returns(comments);
 
             // Act
             var result = (await _sut.GetByGameAsync(gameId)).ToList();
 
             // Assert
-            await _commentRepository.Received(1).GetByGameId(gameId);
+            await _commentRepository.Received(1).GetByGameIdAsync(gameId);
             result.Should().BeEquivalentTo(commentsViews);
         }
 
@@ -81,6 +84,7 @@ namespace OnlineGameStore.Application.Tests.Services
         {
             // Arrange
             var commentRequest = _fixture.Create<CommentRequest>();
+            commentRequest.ParentCommentId = null;
             var comment = _mapper.Map<Comment>(commentRequest);
             var commentView = _mapper.Map<CommentView>(comment);
 

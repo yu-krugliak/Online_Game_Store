@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
+using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
 
 namespace OnlineGameStore.Api.Controllers
@@ -29,6 +30,13 @@ namespace OnlineGameStore.Api.Controllers
         public async Task<IActionResult> GetByEmail(string email)
         {
             return Ok(await _userService.GetUserByEmail(email));
+        }
+
+        [HttpPut("addavatar")]
+        public async Task<IActionResult> UpdateImageInGame(IFormFile image)
+        {
+            await _userService.UpdateAvatarAsync(image);
+            return Ok();
         }
     }
 }

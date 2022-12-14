@@ -31,7 +31,7 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task<IEnumerable<GameView>> GetAllAsync()
         {
-            var games = await _gameRepository.GetGamesWithDetails();
+            var games = await _gameRepository.GetGamesWithDetailsAsync();
 
             var gamesViews = _mapper.Map<IEnumerable<GameView>>(games);
             return gamesViews;
@@ -47,7 +47,7 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task<GameView> GetByIdAsync(int gameId)
         {
-            var game = await _gameRepository.GetGameByIdWithDetails(gameId);
+            var game = await _gameRepository.GetGameByIdWithDetailsAsync(gameId);
             ThrowIfEntityIsNull(game);
 
             var gameView = _mapper.Map<GameView>(game!);
@@ -60,8 +60,8 @@ namespace OnlineGameStore.Application.Services.Implementation
 
             var addedGame = await _gameRepository.AddAsync(game);
 
-            await AddGenresToGame(gameRequest.GenreIds, addedGame);
-            await AddPlatformsToGame(gameRequest.PlatformIds, addedGame);
+            await AddGenresToGameAsync(gameRequest.GenreIds, addedGame);
+            await AddPlatformsToGameAsync(gameRequest.PlatformIds, addedGame);
 
             await _gameRepository.UpdateAsync(addedGame);
 
@@ -80,15 +80,15 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task UpdateAsync(int gameId, GameRequest gameRequest)
         {
-            var game = await _gameRepository.GetGameByIdWithDetails(gameId);
+            var game = await _gameRepository.GetGameByIdWithDetailsAsync(gameId);
             ThrowIfEntityIsNull(game);
             _mapper.Map(gameRequest, game);
 
-            await _gameRepository.RemoveGenresFromGame(game!);
-            await _gameRepository.RemovePlatformsFromGame(game!);
+            await _gameRepository.RemoveGenresFromGameAsync(game!);
+            await _gameRepository.RemovePlatformsFromGameAsync(game!);
 
-            await AddGenresToGame(gameRequest.GenreIds, game!);
-            await AddPlatformsToGame(gameRequest.PlatformIds, game!);
+            await AddGenresToGameAsync(gameRequest.GenreIds, game!);
+            await AddPlatformsToGameAsync(gameRequest.PlatformIds, game!);
 
             var isUpdated = await _gameRepository.UpdateAsync(game!);
 
@@ -100,13 +100,13 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task UpdateImageAsync(int gameId, IFormFile image)
         {
-            var game = await _gameRepository.GetGameByIdWithDetails(gameId);
+            var game = await _gameRepository.GetGameByIdWithDetailsAsync(gameId);
             ThrowIfEntityIsNull(game);
 
             var imageUrl = await _storageService.UploadImageAsync(image, FolderNamesConstants.GamesPictures);
             game!.ImageUrl = imageUrl;
 
-            var isUpdated = await _gameRepository.UpdateAsync(game!);
+            var isUpdated = _gameRepository.UpdateGameImage(game!);
 
             if (!isUpdated)
             {
@@ -114,7 +114,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             }
         }
 
-        private async Task AddGenresToGame(IEnumerable<int> genresIds, Game game)
+        private async Task AddGenresToGameAsync(IEnumerable<int> genresIds, Game game)
         {
             foreach (var genreId in genresIds.Distinct())
             {
@@ -125,7 +125,7 @@ namespace OnlineGameStore.Application.Services.Implementation
             }
         }
 
-        private async Task AddPlatformsToGame(IEnumerable<int> platformsIds, Game game)
+        private async Task AddPlatformsToGameAsync(IEnumerable<int> platformsIds, Game game)
         {
             foreach (var platformId in platformsIds.Distinct())
             {

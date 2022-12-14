@@ -16,7 +16,7 @@ namespace OnlineGameStore.Api.StartupExtensions
                     .GetSection(DbConnectionConfiguration.SectionName)
                     .Get<DbConnectionConfiguration>();
 
-                options.UseSqlServer(connectionConfig.MsSqlConnectionString);
+                options.UseSqlServer(connectionConfig?.MsSqlConnectionString);
             })
             .AddRepositories();
 

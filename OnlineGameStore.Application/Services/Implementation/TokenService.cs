@@ -42,7 +42,9 @@ public class TokenService : ITokenService
     public async Task<TokenView> RefreshToken(RefreshTokenRequest request, CancellationToken cancellationToken)
     {
         var principal = GetPrincipalFromExpiredToken(request.AccessToken!);
-        var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier) 
+            ?? throw new NotFoundException("User with such token not found.");
+
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user is null)
@@ -105,8 +107,8 @@ public class TokenService : ITokenService
         var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.UserName),
-            new(JwtRegisteredClaimNames.Email, user.Email),
+            new(ClaimTypes.Name, user.UserName!),
+            new(JwtRegisteredClaimNames.Email, user.Email!),
             new(JwtRegisteredClaimNames.FamilyName, user.LastName!),
             new(JwtRegisteredClaimNames.GivenName, user.FirstName!),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

@@ -1,4 +1,5 @@
-﻿using OnlineGameStore.Application.Models.Requests;
+﻿using Microsoft.AspNetCore.Http;
+using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 
 namespace OnlineGameStore.Application.Services.Interfaces
@@ -8,5 +9,7 @@ namespace OnlineGameStore.Application.Services.Interfaces
         Task<UserView> GetUserByEmail(string email);
 
         Task RegisterAsync(RegisterRequest request);
+
+        Task UpdateAvatarAsync(IFormFile image);
     }
 }
