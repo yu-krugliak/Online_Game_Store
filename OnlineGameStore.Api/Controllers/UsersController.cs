@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
-using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
 
 namespace OnlineGameStore.Api.Controllers
@@ -17,7 +16,7 @@ namespace OnlineGameStore.Api.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
@@ -25,7 +24,7 @@ namespace OnlineGameStore.Api.Controllers
             return Ok();
         }
 
-        [HttpGet("email/{email}")]
+        [HttpGet("getbyemail/{email}")]
         [ProducesResponseType(typeof(UserView), 200)]
         public async Task<IActionResult> GetByEmail(string email)
         {
@@ -33,6 +32,7 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpPut("addavatar")]
+        [Authorize]
         public async Task<IActionResult> UpdateImageInGame(IFormFile image)
         {
             await _userService.UpdateAvatarAsync(image);

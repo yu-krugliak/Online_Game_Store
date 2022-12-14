@@ -17,13 +17,13 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAllGames()
         {
             return Ok(await _gameService.GetAllAsync());
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddGame([FromBody] GameRequest request)
         {
             var result = await _gameService.AddAsync(request);
@@ -31,6 +31,7 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> UpdateGame(int gameId, [FromBody] GameRequest request)
         {
             await _gameService.UpdateAsync(gameId, request);
@@ -38,6 +39,7 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpPut("addimage")]
+        [Authorize]
         public async Task<IActionResult> UpdateImageInGame(int gameId, IFormFile image)
         {
             await _gameService.UpdateImageAsync(gameId, image);
@@ -45,6 +47,7 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> DeleteGame(int gameId)
         {
             await _gameService.DeleteByIdAsync(gameId);

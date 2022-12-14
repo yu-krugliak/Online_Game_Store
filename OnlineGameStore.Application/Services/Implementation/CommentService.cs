@@ -6,7 +6,6 @@ using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Interfaces;
 using OnlineGameStore.Infrastructure.Entities;
-using OnlineGameStore.Infrastructure.Repositories.Implementations;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Application.Services.Implementation
@@ -54,6 +53,46 @@ namespace OnlineGameStore.Application.Services.Implementation
             var addedComment = await _commentRepository.AddAsync(comment);
 
             return _mapper.Map<CommentView>(addedComment);
+        }
+
+        public async Task UpdateAsync(int commentId, CommentRequest commentRequest)
+        {
+            if (commentRequest.ParentCommentId.TryGetValue(out var parrentCommentId))
+            {
+                await ThrowIfCommentNotExists(parrentCommentId);
+            }
+
+            var comment = await GetExistingEntityById(commentId);
+            _mapper.Map(commentRequest, comment);
+
+            if(Guid.Parse(_currentUser.GetUserId()) != comment.UserIdCreated)
+            {
+                throw new ForbiddenException("Comment doesn't belong to this user");
+            }
+
+            var result = await _commentRepository.UpdateAsync(comment);
+
+            if (!result)
+            {
+                throw new ServerErrorException("Can't update this post.", null);
+            }
+        }
+
+        public async Task DeleteByIdAsync(int commentId)
+        {
+            var comment = await GetExistingEntityById(commentId);
+
+            if (Guid.Parse(_currentUser.GetUserId()) != comment.UserIdCreated)
+            {
+                throw new ForbiddenException("Comment doesn't belong to this user");
+            }
+
+            var result = await _commentRepository.DeleteByIdAsync(commentId);
+
+            if (!result)
+            {
+                throw new ServerErrorException("Can't delete this post.", null);
+            }
         }
 
         private async Task ThrowIfCommentNotExists(int parrentId)

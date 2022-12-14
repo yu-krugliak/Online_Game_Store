@@ -5,7 +5,6 @@ using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Models.Views;
 using OnlineGameStore.Application.Services.Interfaces;
 using OnlineGameStore.Infrastructure.Entities;
-using OnlineGameStore.Infrastructure.Repositories.Implementations;
 using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Application.Services.Implementation

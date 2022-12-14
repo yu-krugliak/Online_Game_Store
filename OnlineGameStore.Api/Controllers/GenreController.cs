@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Services.Interfaces;
@@ -28,6 +29,7 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Add([FromBody] GenreRequest request)
         {
             var result = await _genreService.AddAsync(request);

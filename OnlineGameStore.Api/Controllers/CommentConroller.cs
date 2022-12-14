@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Services.Interfaces;
 
@@ -15,13 +16,6 @@ namespace OnlineGameStore.Api.Controllers
             _commentService = commentService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddComment([FromBody] CommentRequest request)
-        {
-            var result = await _commentService.AddAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAllCommentsByGame(int gameId)
         {
@@ -32,6 +26,30 @@ namespace OnlineGameStore.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await _commentService.GetByIdAsync(id));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddComment([FromBody] CommentRequest request)
+        {
+            var result = await _commentService.AddAsync(request);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Update(int id, [FromBody] CommentRequest request)
+        {
+            await _commentService.UpdateAsync(id, request);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _commentService.DeleteByIdAsync(id);
+            return Ok();
         }
     }
 }

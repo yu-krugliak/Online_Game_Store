@@ -6,7 +6,7 @@ using OnlineGameStore.Application.Services.Interfaces;
 
 namespace OnlineGameStore.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class TokenController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace OnlineGameStore.Api.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpPost]
+        [HttpPost("gettoken")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(TokenView), 200)]
         public async Task<IActionResult> Get([FromBody] TokenRequest request, CancellationToken cancellationToken)
@@ -25,16 +25,14 @@ namespace OnlineGameStore.Api.Controllers
             return Ok(await _tokenService.GetTokenAsync(request, cancellationToken));
         }
 
-        [HttpPost]
-        [Route("refresh")]
+        [HttpPost("refresh")]
         public async Task<IActionResult> Refresh(RefreshTokenRequest refreshTokenRequest, CancellationToken cancellationToken)
         {
             return Ok(await _tokenService.RefreshToken(refreshTokenRequest, cancellationToken));
         }
 
-        [HttpPost]
+        [HttpPost("revoke")]
         [Authorize]
-        [Route("revoke")]
         public async Task<IActionResult> Revoke()
         {
             return Ok(await _tokenService.RevokeTokenAsync());

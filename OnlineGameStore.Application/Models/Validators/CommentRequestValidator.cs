@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using OnlineGameStore.Application.Models.Requests;
-using OnlineGameStore.Infrastructure.Repositories.Interfaces;
 
 namespace OnlineGameStore.Application.Models.Validators
 {
