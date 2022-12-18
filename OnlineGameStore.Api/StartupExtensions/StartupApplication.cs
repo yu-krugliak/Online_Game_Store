@@ -3,6 +3,7 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using OnlineGameStore.Application.Configurations;
 using OnlineGameStore.Application.Mapster;
+using OnlineGameStore.Application.Middleware;
 using OnlineGameStore.Application.Models.Validators;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
@@ -19,10 +20,11 @@ namespace OnlineGameStore.Api.StartupExtensions
                 .AddCloudinary()
                 .Services
                     .AddServices()
-                    .AddMapster()
+                    .AddCurrentUser()
                     .AddIdentity()
                     .AddJwtAuth()
-                    .AddCurrentUser()
+                    .AddScoped<ExceptionHandlingMiddleware>()
+                    .AddMapster()
                     .AddValidation();
 
             return builder;
@@ -31,6 +33,7 @@ namespace OnlineGameStore.Api.StartupExtensions
         public static IApplicationBuilder UseApplication(this IApplicationBuilder builder)
         {
             return builder
+                .UseMiddleware<ExceptionHandlingMiddleware>()
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseCurrentUser();
