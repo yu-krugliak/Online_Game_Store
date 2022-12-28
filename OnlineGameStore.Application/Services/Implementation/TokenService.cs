@@ -62,7 +62,7 @@ public class TokenService : ITokenService
 
     public async Task<bool> RevokeTokenAsync()
     {
-        var userId = Guid.Parse(_currentUser.GetUserId()).ToString();
+        var userId = _currentUser.GetUserId();
         var user = await _userManager.FindByIdAsync(userId);
         
         if (user is null)

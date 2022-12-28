@@ -76,13 +76,7 @@ namespace OnlineGameStore.Api.StartupExtensions
         public static IServiceCollection AddValidation(this IServiceCollection services)
         {
             return services
-                .AddValidatorsFromAssemblyContaining<CommentRequestValidator>()
-                .AddValidatorsFromAssemblyContaining<GameRequestValidator>()
-                .AddValidatorsFromAssemblyContaining<GenreRequestValidator>()
-                .AddValidatorsFromAssemblyContaining<PlatformRequestValidator>()
-                .AddValidatorsFromAssemblyContaining<RefreshTokenRequestValidator>()
-                .AddValidatorsFromAssemblyContaining<RegisterRequestValidator>()
-                .AddValidatorsFromAssemblyContaining<TokenRequestValidator>();
+                .AddValidatorsFromAssemblyContaining<GameRequestValidator>();
         }
 
         public static WebApplicationBuilder AddCloudinary(this WebApplicationBuilder builder)

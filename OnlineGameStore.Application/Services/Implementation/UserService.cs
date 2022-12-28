@@ -29,7 +29,8 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task<UserView> GetUserByEmail(string email)
         {
-            if (await _userManager.FindByEmailAsync(email.Trim().Normalize()) is not { } user)
+            var user = await _userManager.FindByEmailAsync(email.Trim());
+            if (user is null)
             {
                 throw new NotFoundException("Wrong email or user doesn't exist.");
             }

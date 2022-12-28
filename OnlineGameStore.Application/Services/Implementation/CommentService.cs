@@ -64,17 +64,21 @@ namespace OnlineGameStore.Application.Services.Implementation
 
             var comment = await GetExistingEntityById(commentId);
             _mapper.Map(commentRequest, comment);
-
-            if(Guid.Parse(_currentUser.GetUserId()) != comment.UserIdCreated)
-            {
-                throw new ForbiddenException("Comment doesn't belong to this user");
-            }
+            ThrowForbiddenIfNotOwner(comment);
 
             var result = await _commentRepository.UpdateAsync(comment);
 
             if (!result)
             {
                 throw new ServerErrorException("Can't update this post.", null);
+            }
+        }
+
+        private void ThrowForbiddenIfNotOwner(Comment comment)
+        {
+            if (Guid.Parse(_currentUser.GetUserId()) != comment.UserIdCreated)
+            {
+                throw new ForbiddenException("Comment doesn't belong to this user");
             }
         }
 
