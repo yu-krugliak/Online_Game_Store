@@ -64,7 +64,8 @@ namespace OnlineGameStore.Application.Services.Implementation
 
             var comment = await GetExistingEntityById(commentId);
             _mapper.Map(commentRequest, comment);
-            ThrowForbiddenIfNotOwner(comment);
+
+            ThrowForbiddenIfNotOwner(comment.UserIdCreated);
 
             var result = await _commentRepository.UpdateAsync(comment);
 
@@ -74,22 +75,11 @@ namespace OnlineGameStore.Application.Services.Implementation
             }
         }
 
-        private void ThrowForbiddenIfNotOwner(Comment comment)
-        {
-            if (Guid.Parse(_currentUser.GetUserId()) != comment.UserIdCreated)
-            {
-                throw new ForbiddenException("Comment doesn't belong to this user");
-            }
-        }
-
         public async Task DeleteByIdAsync(int commentId)
         {
             var comment = await GetExistingEntityById(commentId);
 
-            if (Guid.Parse(_currentUser.GetUserId()) != comment.UserIdCreated)
-            {
-                throw new ForbiddenException("Comment doesn't belong to this user");
-            }
+            ThrowForbiddenIfNotOwner(comment.UserIdCreated);
 
             var result = await _commentRepository.DeleteByIdAsync(commentId);
 
@@ -105,6 +95,14 @@ namespace OnlineGameStore.Application.Services.Implementation
             if (!isParrentExists)
             {
                 throw new NotFoundException($"Parrent {typeof(Comment).Name} with such id doesn't exist.");
+            }
+        }
+
+        private void ThrowForbiddenIfNotOwner(Guid? ownerId)
+        {
+            if (Guid.Parse(_currentUser.GetUserId()) != ownerId)
+            {
+                throw new ForbiddenException("Comment doesn't belong to this user");
             }
         }
     }
