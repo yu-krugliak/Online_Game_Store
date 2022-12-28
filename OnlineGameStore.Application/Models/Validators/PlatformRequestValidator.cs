@@ -7,13 +7,7 @@ namespace OnlineGameStore.Application.Models.Validators
     {
         public PlatformRequestValidator()
         {
-            RuleFor(r => r.Type)
-                .NotEmpty()
-                .WithMessage("Type can't be empty.")
-                .MinimumLength(2)
-                .WithMessage("Type must have at least 2 characters.")
-                .MaximumLength(60)
-                .WithMessage("Type can't be longer than 60 characters.");
+            StringMustBeInRange(r => r.Type, 2, 60);
         }
     }
 }

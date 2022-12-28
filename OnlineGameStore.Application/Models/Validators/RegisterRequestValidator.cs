@@ -7,6 +7,16 @@ namespace OnlineGameStore.Application.Models.Validators
     {
         public RegisterRequestValidator()
         {
+            StringMustBeInRange(r => r.FirstName, 2, 120);
+
+            StringMustBeInRange(r => r.LastName, 2, 120);
+
+            StringMustBeInRange(r => r.Password, 6, 50);
+
+            RuleFor(r => r.ConfirmPassword)
+                .Equal(r => r.Password)
+                .WithMessage("Passwords can't be different.");
+
             RuleFor(r => r.Email)
                 .NotEmpty()
                 .WithMessage("Email can't be empty.")
@@ -16,32 +26,6 @@ namespace OnlineGameStore.Application.Models.Validators
             RuleFor(r => r.UserName)
                 .NotEmpty()
                 .WithMessage("Username can't be empty.");
-
-            RuleFor(r => r.FirstName)
-                .NotEmpty()
-                .WithMessage("First name can't be empty.")
-                .MinimumLength(2)
-                .WithMessage("First name must have at least 2 characters.")
-                .MaximumLength(100)
-                .WithMessage("First name can't be longer than 100 characters.");
-
-            RuleFor(r => r.LastName)
-                .NotEmpty()
-                .WithMessage("Last name can't be empty.")
-                .MinimumLength(2)
-                .WithMessage("Last name must have at least 2 characters.")
-                .MaximumLength(100)
-                .WithMessage("Last name can't be longer than 100 characters.");
-
-            RuleFor(r => r.Password)
-                .NotEmpty()
-                .WithMessage("Password can't be empty.")
-                .MinimumLength(6)
-                .WithMessage("Password must have at least 6 characters.");
-
-            RuleFor(r => r.ConfirmPassword)
-                .Equal(r => r.Password)
-                .WithMessage("Passwords can't be different.");
         }
     }
 }

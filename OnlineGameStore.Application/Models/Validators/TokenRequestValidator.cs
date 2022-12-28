@@ -13,11 +13,7 @@ namespace OnlineGameStore.Application.Models.Validators
                 .EmailAddress()
                 .WithMessage("'Email' is not a valid email address");
 
-            RuleFor(r => r.Password)
-                .NotEmpty()
-                .WithMessage("Password can't be empty.")
-                .MinimumLength(6)
-                .WithMessage("Password must have at least 6 characters.");
+            StringMustBeInRange(r => r.Password, 6, 50);
         }
     }
 }

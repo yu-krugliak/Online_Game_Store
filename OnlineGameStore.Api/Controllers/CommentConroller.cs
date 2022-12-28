@@ -17,7 +17,7 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCommentsByGame(int gameId)
+        public async Task<IActionResult> GetAllCommentsByGame([FromQuery] int gameId)
         {
             return Ok(await _commentService.GetByGameAsync(gameId));
         }

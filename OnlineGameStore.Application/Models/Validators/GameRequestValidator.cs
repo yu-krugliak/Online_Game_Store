@@ -7,29 +7,11 @@ namespace OnlineGameStore.Application.Models.Validators
     {
         public GameRequestValidator()
         {
-            RuleFor(r => r.Key)
-                .NotEmpty()
-                .WithMessage("Game key can't be empty.")
-                .MinimumLength(10)
-                .WithMessage("Game key must have at least 10 characters.")
-                .MaximumLength(100)
-                .WithMessage("Game key can't be longer than 100 characters.");
+            StringMustBeInRange(r => r.Key, 10, 100);
 
-            RuleFor(r => r.Name)
-                .NotEmpty()
-                .WithMessage("Name can't be empty.")
-                .MinimumLength(2)
-                .WithMessage("Name must have at least 2 characters.")
-                .MaximumLength(100)
-                .WithMessage("Name can't be longer than 100 characters.");
+            StringMustBeInRange(r => r.Name, 2, 100);
 
-            RuleFor(r => r.Description)
-                .NotEmpty()
-                .WithMessage("Description can't be empty.")
-                .MinimumLength(10)
-                .WithMessage("Description must have at least 10 characters.")
-                .MaximumLength(500)
-                .WithMessage("Description can't be longer than 500 characters.");
+            StringMustBeInRange(r => r.Description, 10, 500);
 
             RuleFor(r => r.Price)
                 .GreaterThan(0)
