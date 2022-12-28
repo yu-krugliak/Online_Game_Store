@@ -29,8 +29,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(user => user.RefreshTokenExpiryTime);
 
         builder.HasMany(user => user.Comments)
-            .WithOne(comment => comment.User)
-            .HasForeignKey(comment => comment.UserIdCreated)
+            .WithOne(comment => comment.Owner)
+            .HasForeignKey(comment => comment.OwnerId)
             .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
     }

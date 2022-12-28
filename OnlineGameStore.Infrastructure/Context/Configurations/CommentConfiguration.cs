@@ -10,17 +10,14 @@ namespace OnlineGameStore.Infrastructure.Context.Configurations
         {
             builder.HasKey(comment => comment.Id);
 
-            builder.Property(comment => comment.Name)
-                .IsRequired(true).HasMaxLength(60);
-
             builder.Property(comment => comment.Body)
                 .IsRequired(true).HasMaxLength(500);
 
             builder.Property(comment => comment.DatePosted);
 
-            builder.HasOne(comment => comment.User)
+            builder.HasOne(comment => comment.Owner)
                 .WithMany(user => user.Comments)
-                .HasForeignKey(post => post.UserIdCreated);
+                .HasForeignKey(post => post.OwnerId);
 
             builder.HasOne(comment => comment.ParentComment)
                 .WithMany(parent => parent.CommentReplies)

@@ -22,6 +22,7 @@ namespace OnlineGameStore.Application.Mapster
                 .IgnoreNullValues(true);
 
             config.ForType<Comment, CommentView>()
+                .Map(cv => cv.UserName, c => c.Owner!.UserName)
                 .IgnoreNullValues(false);
 
             config.ForType<CommentRequest, Comment>()

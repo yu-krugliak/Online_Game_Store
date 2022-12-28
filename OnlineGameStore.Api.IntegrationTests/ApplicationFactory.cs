@@ -75,7 +75,6 @@ public class ApplicationFactory<TStartup>
             new ()
             {
                 Id = 1,
-                Name = "Test",
                 GameId = 1,
                 Body = "Test Body",
                 DatePosted = DateTime.Now

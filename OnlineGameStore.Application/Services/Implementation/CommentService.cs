@@ -41,14 +41,14 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task<CommentView> AddAsync(CommentRequest commentRequest)
         {
-            if (commentRequest.ParentCommentId.TryGetValue(out var parrentCommentId)) 
+            if (commentRequest.ParentCommentId.TryGetValue(out var parentCommentId)) 
             {
-                await ThrowIfCommentNotExists(parrentCommentId);
+                await ThrowIfCommentNotExists(parentCommentId);
             }
 
             var comment = _mapper.Map<Comment>(commentRequest);
             comment.DatePosted = DateTime.UtcNow;
-            comment.UserIdCreated = Guid.Parse(_currentUser.GetUserId());
+            comment.OwnerId = Guid.Parse(_currentUser.GetUserId());
 
             var addedComment = await _commentRepository.AddAsync(comment);
 
@@ -57,15 +57,15 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task UpdateAsync(int commentId, CommentRequest commentRequest)
         {
-            if (commentRequest.ParentCommentId.TryGetValue(out var parrentCommentId))
+            if (commentRequest.ParentCommentId.TryGetValue(out var parentCommentId))
             {
-                await ThrowIfCommentNotExists(parrentCommentId);
+                await ThrowIfCommentNotExists(parentCommentId);
             }
 
             var comment = await GetExistingEntityById(commentId);
             _mapper.Map(commentRequest, comment);
 
-            ThrowForbiddenIfNotOwner(comment.UserIdCreated);
+            ThrowForbiddenIfNotOwner(comment.OwnerId);
 
             var result = await _commentRepository.UpdateAsync(comment);
 
@@ -79,7 +79,7 @@ namespace OnlineGameStore.Application.Services.Implementation
         {
             var comment = await GetExistingEntityById(commentId);
 
-            ThrowForbiddenIfNotOwner(comment.UserIdCreated);
+            ThrowForbiddenIfNotOwner(comment.OwnerId);
 
             var result = await _commentRepository.DeleteByIdAsync(commentId);
 
@@ -89,12 +89,12 @@ namespace OnlineGameStore.Application.Services.Implementation
             }
         }
 
-        private async Task ThrowIfCommentNotExists(int parrentId)
+        private async Task ThrowIfCommentNotExists(int parentId)
         {
-            var isParrentExists = await _commentRepository.ExistsAsync(parrentId);
-            if (!isParrentExists)
+            var isParentExists = await _commentRepository.ExistsAsync(parentId);
+            if (!isParentExists)
             {
-                throw new NotFoundException($"Parrent {typeof(Comment).Name} with such id doesn't exist.");
+                throw new NotFoundException($"Parent {typeof(Comment).Name} with such id doesn't exist.");
             }
         }
 

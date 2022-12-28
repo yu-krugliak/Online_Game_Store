@@ -38,9 +38,9 @@ namespace OnlineGameStore.Application.Services.Implementation
 
         public async Task<GenreView> AddAsync(GenreRequest genreRequest)
         {
-            if (genreRequest.ParentGenreId.TryGetValue(out var parrentGenreId))
+            if (genreRequest.ParentGenreId.TryGetValue(out var parentGenreId))
             {
-                await ThrowIfGenreNotExists(parrentGenreId);
+                await ThrowIfGenreNotExists(parentGenreId);
             }
 
             var genre = _mapper.Map<Genre>(genreRequest);
@@ -49,12 +49,12 @@ namespace OnlineGameStore.Application.Services.Implementation
             return _mapper.Map<GenreView>(addedGenre);
         }
 
-        private async Task ThrowIfGenreNotExists(int parrentId)
+        private async Task ThrowIfGenreNotExists(int parentId)
         {
-            var isParrentExists = await _genreRepository.ExistsAsync(parrentId);
-            if (!isParrentExists)
+            var isParentExists = await _genreRepository.ExistsAsync(parentId);
+            if (!isParentExists)
             {
-                throw new NotFoundException($"Parrent {typeof(Genre).Name} with such id doesn't exist.");
+                throw new NotFoundException($"Parent {typeof(Genre).Name} with such id doesn't exist.");
             }
         }
     }
