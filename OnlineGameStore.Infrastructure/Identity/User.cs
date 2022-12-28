@@ -18,5 +18,5 @@ public class User : IdentityUser<Guid>, IEntity<Guid>
     public DateTime RefreshTokenExpiryTime { get; set; }
 
 
-    public virtual ICollection<Comment>? Comments { get; set; }
+    public ICollection<Comment>? Comments { get; set; }
 }

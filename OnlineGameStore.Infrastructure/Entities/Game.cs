@@ -15,10 +15,10 @@
         public string? ImageUrl { get; set; }
 
 
-        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();
+        public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
-        public virtual ICollection<PlatformType> Platforms { get; set; } = new List<PlatformType>();
+        public ICollection<PlatformType> Platforms { get; set; } = new List<PlatformType>();
     }
 }
