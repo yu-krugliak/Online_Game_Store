@@ -30,7 +30,7 @@ namespace OnlineGameStore.Api.Controllers
             return CreatedAtAction(nameof(GetGameById), new { id = result.Id }, result);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> UpdateGame(int gameId, [FromBody] GameRequest request)
         {
@@ -46,7 +46,7 @@ namespace OnlineGameStore.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteGame(int gameId)
         {

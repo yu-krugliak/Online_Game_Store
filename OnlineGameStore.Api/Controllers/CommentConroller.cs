@@ -16,13 +16,13 @@ namespace OnlineGameStore.Api.Controllers
             _commentService = commentService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllCommentsByGame([FromQuery] int gameId)
+        [HttpGet("getbygame/{gameId}")]
+        public async Task<IActionResult> GetAllCommentsByGame(int gameId)
         {
             return Ok(await _commentService.GetByGameAsync(gameId));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("getbyid/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await _commentService.GetByIdAsync(id));
