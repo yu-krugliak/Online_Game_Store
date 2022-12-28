@@ -18,8 +18,18 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
         {
             return await _gamesContext.Comments
                 .Where(c => c.GameId == gameId)
+                .Include(c => c.Owner)
                 .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public override async Task<Comment?> GetByIdAsync(int commentId)
+        {
+            return await _gamesContext.Comments
+                .Where(c => c.Id == commentId)
+                .Include(c => c.Owner)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
     }
 }
