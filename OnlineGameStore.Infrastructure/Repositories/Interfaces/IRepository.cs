@@ -6,6 +6,8 @@
 
         Task<TEntity?> GetByIdAsync(int id);
 
+        Task<bool> ExistsAsync(int id);
+
         Task<TEntity> AddAsync(TEntity entity);
 
         Task<bool> DeleteByIdAsync(int id);

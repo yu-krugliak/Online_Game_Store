@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OnlineGameStore.Infrastructure.Entities;
+using OnlineGameStore.Infrastructure.Identity;
 
 namespace OnlineGameStore.Infrastructure.Context
 {
-    public class GamesContext : DbContext
+    public class GamesContext : IdentityDbContext<User, Role, Guid>
     {
         public virtual DbSet<Game> Games { get; set; } = default!;
 
@@ -15,9 +17,7 @@ namespace OnlineGameStore.Infrastructure.Context
 
 
         public GamesContext(DbContextOptions<GamesContext> options) : base(options)
-        {
-            Database?.EnsureCreated();
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

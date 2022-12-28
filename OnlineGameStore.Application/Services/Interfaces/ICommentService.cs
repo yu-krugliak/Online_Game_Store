@@ -11,5 +11,9 @@ namespace OnlineGameStore.Application.Services.Interfaces
         Task<CommentView> GetByIdAsync(int commentId);
 
         Task<CommentView> AddAsync(CommentRequest commentRequest);
+
+        Task UpdateAsync(int commentId, CommentRequest commentRequest);
+
+        Task DeleteByIdAsync(int commentId);
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.Application.Models.Requests;
 using OnlineGameStore.Application.Services.Interfaces;
@@ -22,13 +23,15 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddGame([FromBody] GameRequest request)
         {
             var result = await _gameService.AddAsync(request);
             return CreatedAtAction(nameof(GetGameById), new { id = result.Id }, result);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateGame(int gameId, [FromBody] GameRequest request)
         {
             await _gameService.UpdateAsync(gameId, request);
@@ -36,13 +39,15 @@ namespace OnlineGameStore.Api.Controllers
         }
 
         [HttpPut("addimage")]
+        [Authorize]
         public async Task<IActionResult> UpdateImageInGame(int gameId, IFormFile image)
         {
             await _gameService.UpdateImageAsync(gameId, image);
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteGame(int gameId)
         {
             await _gameService.DeleteByIdAsync(gameId);

@@ -1,8 +1,14 @@
-﻿using MapsterMapper;
+﻿using FluentValidation;
+using MapsterMapper;
+using Microsoft.AspNetCore.Identity;
 using OnlineGameStore.Application.Configurations;
 using OnlineGameStore.Application.Mapster;
+using OnlineGameStore.Application.Middleware;
+using OnlineGameStore.Application.Models.Validators;
 using OnlineGameStore.Application.Services.Implementation;
 using OnlineGameStore.Application.Services.Interfaces;
+using OnlineGameStore.Infrastructure.Context;
+using OnlineGameStore.Infrastructure.Identity;
 
 namespace OnlineGameStore.Api.StartupExtensions
 {
@@ -14,9 +20,23 @@ namespace OnlineGameStore.Api.StartupExtensions
                 .AddCloudinary()
                 .Services
                     .AddServices()
-                    .AddMapster();
+                    .AddCurrentUser()
+                    .AddIdentity()
+                    .AddJwtAuth()
+                    .AddScoped<ExceptionHandlingMiddleware>()
+                    .AddMapster()
+                    .AddValidation();
 
             return builder;
+        }
+
+        public static IApplicationBuilder UseApplication(this IApplicationBuilder builder)
+        {
+            return builder
+                .UseMiddleware<ExceptionHandlingMiddleware>()
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseCurrentUser();
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
@@ -25,7 +45,25 @@ namespace OnlineGameStore.Api.StartupExtensions
                 .AddTransient<IGameService, GameService>()
                 .AddTransient<ICommentService, CommentService>()
                 .AddTransient<IGenreService, GenreService>()
-                .AddTransient<IPlatformService, PlatformService>();
+                .AddTransient<IPlatformService, PlatformService>()
+                .AddTransient<ITokenService, TokenService>()
+                .AddTransient<IUserService, UserService>();
+        }
+
+        public static IServiceCollection AddIdentity(this IServiceCollection services)
+        {
+            return services.AddIdentity<User, Role>(options =>
+                {
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<GamesContext>()
+                .AddDefaultTokenProviders()
+                .Services;
         }
 
         public static IServiceCollection AddMapster(this IServiceCollection services)
@@ -33,6 +71,12 @@ namespace OnlineGameStore.Api.StartupExtensions
             return services
                 .AddMapsterConfiguration()
                 .AddTransient<IMapper, Mapper>();
+        }
+
+        public static IServiceCollection AddValidation(this IServiceCollection services)
+        {
+            return services
+                .AddValidatorsFromAssemblyContaining<GameRequestValidator>();
         }
 
         public static WebApplicationBuilder AddCloudinary(this WebApplicationBuilder builder)

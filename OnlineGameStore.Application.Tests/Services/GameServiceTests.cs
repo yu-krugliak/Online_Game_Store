@@ -39,13 +39,13 @@ namespace OnlineGameStore.Application.Tests.Services
             // Arrange
             var games = _fixture.CreateMany<Game>(3).ToList();
             var gameViews = _mapper.Map<IEnumerable<GameView>>(games).ToList();
-            _gameRepository.GetGamesWithDetails().Returns(games);
+            _gameRepository.GetGamesWithDetailsAsync().Returns(games);
 
             // Act
             var result = (await _sut.GetAllAsync()).ToList();
 
             // Assert
-            await _gameRepository.Received(1).GetGamesWithDetails();
+            await _gameRepository.Received(1).GetGamesWithDetailsAsync();
             result.Should().BeEquivalentTo(gameViews);
         }
 
@@ -77,13 +77,13 @@ namespace OnlineGameStore.Application.Tests.Services
 
             var game = _fixture.Create<Game>();
             var gameView = _mapper.Map<GameView>(game);
-            _gameRepository.GetGameByIdWithDetails(Arg.Any<int>()).Returns(game);
+            _gameRepository.GetGameByIdWithDetailsAsync(Arg.Any<int>()).Returns(game);
 
             // Act
             var result = await _sut.GetByIdAsync(id);
 
             // Assert
-            await _gameRepository.Received(1).GetGameByIdWithDetails(id);
+            await _gameRepository.Received(1).GetGameByIdWithDetailsAsync(id);
             result.Should().BeEquivalentTo(gameView);
         }
 
@@ -92,7 +92,7 @@ namespace OnlineGameStore.Application.Tests.Services
         {
             // Arrange
             var id = _fixture.Create<int>();
-            _gameRepository.GetGameByIdWithDetails(Arg.Any<int>()).Returns((Game?)null);
+            _gameRepository.GetGameByIdWithDetailsAsync(Arg.Any<int>()).Returns((Game?)null);
 
             // Act
             Func<Task> act = async () => await _sut.GetByIdAsync(id);
@@ -102,7 +102,7 @@ namespace OnlineGameStore.Application.Tests.Services
                 .ThrowAsync<NotFoundException>()
                 .WithMessage("Game with such id doesn't exist.");
 
-            await _gameRepository.Received(1).GetGameByIdWithDetails(id);
+            await _gameRepository.Received(1).GetGameByIdWithDetailsAsync(id);
         }
 
         [Fact]
@@ -192,7 +192,7 @@ namespace OnlineGameStore.Application.Tests.Services
 
             _genreRepository.GetByIdAsync(Arg.Any<int>()).ReturnsForAnyArgs(x => genres.Find(genre => genre.Id == x.Arg<int>()));
             _platformRepository.GetByIdAsync(Arg.Any<int>()).ReturnsForAnyArgs(x => platforms.Find(pl => pl.Id == x.Arg<int>()));
-            _gameRepository.GetGameByIdWithDetails(Arg.Any<int>()).Returns(expectedGame);
+            _gameRepository.GetGameByIdWithDetailsAsync(Arg.Any<int>()).Returns(expectedGame);
             _gameRepository.UpdateAsync(Arg.Any<Game>()).Returns(true);
 
             // Act
@@ -208,7 +208,7 @@ namespace OnlineGameStore.Application.Tests.Services
             // Arrange
             var id = _fixture.Create<int>();
             var gameRequest = _fixture.Create<GameRequest>();
-            _gameRepository.GetGameByIdWithDetails(Arg.Any<int>()).Returns((Game?)null);
+            _gameRepository.GetGameByIdWithDetailsAsync(Arg.Any<int>()).Returns((Game?)null);
 
             // Act
             Func<Task> act = async () => await _sut.UpdateAsync(id, gameRequest);
@@ -218,7 +218,7 @@ namespace OnlineGameStore.Application.Tests.Services
                 .ThrowAsync<NotFoundException>()
                 .WithMessage("Game with such id doesn't exist.");
 
-            await _gameRepository.Received(1).GetGameByIdWithDetails(id);
+            await _gameRepository.Received(1).GetGameByIdWithDetailsAsync(id);
         }
 
         [Fact]
@@ -231,7 +231,7 @@ namespace OnlineGameStore.Application.Tests.Services
                 .Create();
 
             var game = _mapper.Map<Game>(gameRequest);
-            _gameRepository.GetGameByIdWithDetails(Arg.Any<int>()).Returns(game);
+            _gameRepository.GetGameByIdWithDetailsAsync(Arg.Any<int>()).Returns(game);
             _gameRepository.UpdateAsync(Arg.Any<Game>()).Returns(false);
 
             // Act
@@ -242,7 +242,7 @@ namespace OnlineGameStore.Application.Tests.Services
                 .ThrowAsync<ServerErrorException>()
                 .WithMessage("Can't update this game.");
 
-            await _gameRepository.Received(1).GetGameByIdWithDetails(Arg.Any<int>());
+            await _gameRepository.Received(1).GetGameByIdWithDetailsAsync(Arg.Any<int>());
             await _gameRepository.Received(1).UpdateAsync(Arg.Any<Game>());
         }
 
@@ -251,7 +251,7 @@ namespace OnlineGameStore.Application.Tests.Services
         {
             // Arrange
             var id = _fixture.Create<int>();
-            _gameRepository.GetGameByIdWithDetails(Arg.Any<int>()).Returns((Game?)null);
+            _gameRepository.GetGameByIdWithDetailsAsync(Arg.Any<int>()).Returns((Game?)null);
 
             // Act
             Func<Task> act = async () => await _sut.UpdateImageAsync(id, default!);
@@ -261,7 +261,7 @@ namespace OnlineGameStore.Application.Tests.Services
                 .ThrowAsync<NotFoundException>()
                 .WithMessage("Game with such id doesn't exist.");
 
-            await _gameRepository.Received(1).GetGameByIdWithDetails(id);
+            await _gameRepository.Received(1).GetGameByIdWithDetailsAsync(id);
         }
 
         [Fact]
@@ -273,7 +273,7 @@ namespace OnlineGameStore.Application.Tests.Services
 
             const string url = "https://youtu.be/dQw4w9WgXcQ";
 
-            _gameRepository.GetGameByIdWithDetails(Arg.Any<int>())
+            _gameRepository.GetGameByIdWithDetailsAsync(Arg.Any<int>())
                 .Returns(game);
 
             _storageService.UploadImageAsync(Arg.Any<IFormFile>(), Arg.Any<string>())
@@ -290,7 +290,7 @@ namespace OnlineGameStore.Application.Tests.Services
                 .ThrowAsync<ServerErrorException>()
                 .WithMessage("Can't add image to this game.");
 
-            await _gameRepository.Received(1).GetGameByIdWithDetails(id);
+            await _gameRepository.Received(1).GetGameByIdWithDetailsAsync(id);
             await _storageService.Received(1).UploadImageAsync(default!, FolderNamesConstants.GamesPictures);
             await _gameRepository.Received(1).UpdateAsync(game);
         }
@@ -304,7 +304,7 @@ namespace OnlineGameStore.Application.Tests.Services
 
             const string url = "https://youtu.be/dQw4w9WgXcQ";
 
-            _gameRepository.GetGameByIdWithDetails(Arg.Any<int>())
+            _gameRepository.GetGameByIdWithDetailsAsync(Arg.Any<int>())
                 .Returns(game);
 
             _storageService.UploadImageAsync(Arg.Any<IFormFile>(), Arg.Any<string>())
@@ -319,7 +319,7 @@ namespace OnlineGameStore.Application.Tests.Services
             // Assert
             game.ImageUrl.Should().Be(url);
 
-            await _gameRepository.Received(1).GetGameByIdWithDetails(id);
+            await _gameRepository.Received(1).GetGameByIdWithDetailsAsync(id);
             await _storageService.Received(1).UploadImageAsync(default!, FolderNamesConstants.GamesPictures);
             await _gameRepository.Received(1).UpdateAsync(game);
         }

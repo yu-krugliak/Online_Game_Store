@@ -25,6 +25,12 @@ namespace OnlineGameStore.Infrastructure.Repositories.Implementations
                 .FindAsync(id);
         }
 
+        public virtual async Task<bool> ExistsAsync(int id)
+        {
+            return await _gameContext.Set<TEntity>()
+                .FindAsync(id) is not null;
+        }
+
         public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             _gameContext.Set<TEntity>().Add(entity);

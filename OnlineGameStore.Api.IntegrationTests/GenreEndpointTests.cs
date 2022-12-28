@@ -1,9 +1,5 @@
 using AutoFixture;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using Newtonsoft.Json;
-using System.Net;
-using FluentAssertions;
-using OnlineGameStore.Application.Models.Requests;
 using Xunit;
 
 namespace OnlineGameStore.Api.IntegrationTests

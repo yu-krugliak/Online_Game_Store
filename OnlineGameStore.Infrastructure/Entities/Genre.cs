@@ -10,10 +10,10 @@
 
 
         public int? ParentGenreId { get; set; }
-        public virtual Genre? ParentGenre { get; set; }
+        public Genre? ParentGenre { get; set; }
 
-        public virtual ICollection<Genre>? NestedGenres { get; set; }
+        public ICollection<Genre>? NestedGenres { get; set; }
 
-        public virtual ICollection<Game>? Games { get; set; }
+        public ICollection<Game>? Games { get; set; }
     }
 }
